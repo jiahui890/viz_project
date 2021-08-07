@@ -1,3 +1,5 @@
+> Disclaimer: This repository is for project deliverables of SMU's ISSS608 module
+
 # ISSS608 - VAST Challenge 2021  
 Dissecting VAST Challenge 2021 via Project Artefacts (Shiny App, Poster, Research Paper)
 
