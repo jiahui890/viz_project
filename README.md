@@ -8,7 +8,7 @@ Project Organization
     ├── README.md          <- The top-level README for developers using this project.
     │
     │
-    ├── poster             <- An overall summary of analysis and findings
+    ├── poster             <- An overall summary of analysis and findings using 'posterdown' and 'pagedown' packages
     │
     ├── shiny_app
     │   ├── data           <- Data from third party sources.
