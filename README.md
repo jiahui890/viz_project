@@ -1,6 +1,10 @@
 # ISSS608 - VAST Challenge 2021  
 Dissecting VAST Challenge 2021 via Project Artefacts (Shiny App, Poster, Research Paper)
 
+Project Website
+------------
+View our project website here: [G1 Group 9](https://isss608-g1-t9.netlify.app/)
+
 Project Organization
 ------------
 
