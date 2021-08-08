@@ -1,5 +1,5 @@
 # Libraries
-packages= c('tidyverse','sp','sf','mapview')
+packages= c('tidyverse','sp','sf','mapview','tmap')
 
 for(p in packages){
   if(!require(p,character.only= T)){
@@ -10,44 +10,52 @@ for(p in packages){
 
 #load map
 Abila_st <- st_read(dsn = "data/Geospatial", layer = "Abila")
+Abila_hex <- st_read(dsn = "linya/geo2", layer = "hex_final")
 
+#mapview npts clean
 p = npts(Abila_st, by_feature = TRUE)
 
 Abila_st <- cbind(Abila_st, p) %>%
   filter(p>1) %>% 
   mutate(tract_area = st_area(geometry))
 
+#filter location points from data file
+location_test<-data %>% filter(latitude!="")
 
-ggplot()+
-  geom_sf(data=Abila_st,size=0.2,color="black",fill="cyan1")
+location_test<-st_as_sf(location_test,
+         coords = c("longitude","latitude"),
+         crs= 4326)
 
 
+# ues st_intersection to find conjucntions of polygon and points
+intersection2<-st_set_geometry(st_intersection(location_test,Abila_hex), NULL)
+#join Abila_hexfile
+intersection2<-left_join(intersection2,Abila_hex,by=c('left','bottom','right','top'))
+#count number of posts in each polygon
+intersection2<-intersection2 %>% group_by(left,bottom,right,top) %>% 
+  mutate(count = n())
 
 
+#trnasfer to sf file for tmap to plot
+intersection2<-st_as_sf(intersection2)
 
-library(sp)
-library(raster)
-library(sf)
-#devtools::install_github("hrbrmstr/overpass")
-library(overpass)
+tmap_mode("view")
 
-query_airport <- '
-(node["aeroway"="aerodrome"](50.8, -1.6,51.1, -1.1);
- way["aeroway"="aerodrome"](50.8, -1.6,51.1, -1.1);
- relation["aeroway"="aerodrome"](50.8, -1.6,51.1, -1.1);
-); 
-out body;
->;
-out skel qt;
-'
-# Run query
-shp_airports <- overpass::overpass_query(query_airport, quiet = TRUE)
-crs(shp_airports) <- CRS("+init=epsg:4326")
+tm_shape(Abila_hex)+
+  tm_polygons()+
+tm_shape(Abila_st)+
+  tm_lines()+
+  tm_shape(intersection2)+
+  tm_polygons(col='count')
 
-sf_airports <- st_as_sf(shp_airports) 
-sf_airports_polygons <- st_polygonize(sf_airports)
-shp_airports <- as(sf_airports_polygons, "Spatial") # If you want sp
-class(shp_airports)
+#To configure with shiny   
 
-plot(shp_airports, axes = T)
-  
+#-aesthetics on map
+#tootips-author, message,timestamp number of posts (link with table?)
+#draw sea and road based on sample assignment https://syedahmadzakidataviz.netlify.app/posts/2021-06-08-assignment/
+
+#shiny filter - timestamp / size of polygon (tentative, cos need to save multiple polygon files)
+             #- points / polygon?
+             #type of data -ccdata and mbdata
+
+
