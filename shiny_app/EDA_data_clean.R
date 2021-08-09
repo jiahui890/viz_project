@@ -314,3 +314,69 @@ table<-subset(topic_data,select = c(timestamp,author,message,topic))%>%
   mutate_if(is.character, ~gsub('[^ -~]', '', .))
 
 DT::datatable(data = table)
+
+
+
+
+
+############################Network Data Clean################################
+
+
+
+
+RT_edges <- data %>% 
+  filter(RT_from!="") %>% 
+  transmute(source_label = author, target_label = as.character(RT_from))
+
+
+RT_edges_agg <- RT_edges %>% 
+  count(source_label, target_label) %>%
+  rename(from = source_label, to = target_label) %>% 
+  ungroup
+
+
+RT_source <- distinct(RT_edges, node = RT_edges$source_label)
+RT_target <- distinct(RT_edges, node = as.character(RT_edges$target_label))
+RT_node <- bind_rows(RT_source, RT_target)
+RT_node <- RT_node %>% 
+  distinct(node) %>% 
+  rename(id = node)
+
+
+
+RT_graph <- tbl_graph(nodes = RT_node,
+                           edges= RT_edges_agg,
+                           directed=TRUE)
+
+#visIgraph(RT_graph)
+#Inclass_ex_9 slide32 centr_betw(),centr_clo(),centr_eigen()
+
+V(RT_graph)$size <- centr_degree(RT_graph, mode = "all")$res #all,in,out
+#V(RT_graph)$size <-centr_betw(RT_graph)$res
+V(RT_graph)$size <-centr_clo(RT_graph)$res
+V(RT_graph)$size<-centr_eigen(RT_graph)$vector
+
+
+nodes <- get.data.frame(RT_graph, what="vertices") 
+
+
+visNetwork(nodes, RT_edges_agg, height = "500px", width = "100%") %>%
+  visOptions(selectedBy = "size", highlightNearest = list(enabled = T, hover = T), 
+             nodesIdSelection = TRUE)%>% 
+     visIgraphLayout(layout = "layout_with_fr") %>% 
+     visLayout(randomSeed = 1234) 
+
+#Degree distribution
+#plotly
+library(plotly)
+plot_ly(nodes,x=~indegree,type="histogram")
+#ggplpt
+ggplot(nodes, aes(x=size)) + 
+  geom_histogram() +
+  theme_minimal()
+
+#to improve
+#to add network knowledge theory below the selection panel
+#?size of the node closeness/eigen scale bigger?
+#plotly tooltip, title 
+#highlight/show size when click/hover node
