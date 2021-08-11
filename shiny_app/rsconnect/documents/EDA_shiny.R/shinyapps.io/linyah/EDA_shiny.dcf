@@ -1,0 +1,14 @@
+name: EDA_shiny
+title: EDA_shiny
+username:
+account: linyah
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4479161
+bundleId: 4910603
+url: https://linyah.shinyapps.io/EDA_shiny/
+when: 1628667586.00759
+lastSyncTime: 1628667586.00759
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .RData|app.R|EDA_data_clean.R|Layout.R|network_shiny.R|packages.bib|R/loadData.R|Topic Modeling.R|user_engagement.R|data|linya
