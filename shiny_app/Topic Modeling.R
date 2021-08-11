@@ -1,42 +1,54 @@
 library(shiny)
+library(topicmodels)
+library(DT)
+library(tidytext)
+library(tm)
 
-
+data<-read.csv("cleaned_data/data.csv")
 
 ui <- fluidPage(
-  titlePanel("Input for LDA Modeling"),
-  
+  titlePanel("LDA Topic Modeling"),
+  br(),
+
   sidebarLayout(
-    
-    sidebarPanel(
-      sliderInput("timeRange", label = "Time range",
-                  min = as.POSIXct("2014-01-23 17:00:00",tz = "UTC"),
-                  max = as.POSIXct("2014-01-23 21:35:00",tz = "UTC"),
+
+    sidebarPanel(width = 3,
+                 h2(strong("Filter Panel"), style = "font-size:20px;"),
+      sliderInput("timeRange", label = "Select Time Range",
+                  min = as.POSIXct("2014-01-23 17:00:00"),
+                  max = as.POSIXct("2014-01-23 21:35:00"),
                   value = c(
-                    as.POSIXct("2014-01-23 17:00:00",tz = "UTC"),
-                    as.POSIXct("2014-01-23 21:35:00",tz = "UTC")
+                    as.POSIXct("2014-01-23 17:00:00"),
+                    as.POSIXct("2014-01-23 21:35:00")
                   )),
       numericInput("k", "Number of Topics:", 10, min = 2, max = 20),
       numericInput("iter", "Number of Iterations:", 200, min = 50, max = 500),
       numericInput("topn", "Top n words in topic:", 10, min = 1, max = 20),
-      numericInput("topuser", "Top n users in topic:", 5, min = 1, max = 20),
-      actionButton("do", "Apply Change")
+      actionButton("do", strong("Apply Change"))
 
     ),
   
   mainPanel(
     tabsetPanel(
-      tabPanel("Top words in topic", plotOutput("plot1")), 
-      tabPanel("Topic Trend during selected time period", plotOutput("plot2")),
-      tabPanel("User Engagement", plotOutput("plot3"),
-               DT::dataTableOutput("table"))
+      tabPanel("Topic-Word Probability", plotOutput("plot1")), 
+      tabPanel("Topic Trend", plotlyOutput("plot2")),
+      tabPanel("User Engagement", 
+               fluidRow(textInput("topicn","Input Topic Index Here (split by comma)")),
+               # splitLayout(
+               #             plotOutput("plot3"),
+               #             DT::dataTableOutput("table"))
+               fluidRow(
+                 column(6,plotOutput("plot3")),
+                 column(6,DT::dataTableOutput("table"))
+               
+               )
     )
 )
 )
-)
+))
 
 
-select_init <- subset(topic_data,select = c(timestamp,author,message,topic))%>%
-  mutate_if(is.character, ~gsub('[^ -~]', '', .))
+
 
 server <- function(input, output) {
   
@@ -44,7 +56,8 @@ server <- function(input, output) {
   
   observeEvent(input$do, {
     
-    mdata <- data[data$timestamp>=ymd_hms(input$timeRange[1]) & data$timestamp<=ymd_hms(input$timeRange[2])] %>% 
+    mbdata <- data %>% mutate(timestamp=ymd_hms(data$timestamp),time_1min=ymd_hms(data$time_1min)) %>% 
+      filter(timestamp>=ymd_hms(input$timeRange[1])+ hours(8) & timestamp<=ymd_hms(input$timeRange[2])+ hours(8))%>% 
       filter(type=='mbdata')
 
     mbdata$id<-seq.int(nrow(mbdata))
@@ -78,7 +91,7 @@ server <- function(input, output) {
       ggplot(aes(beta, term, fill = factor(topic))) +
       geom_col(show.legend = FALSE) +
       facet_wrap(~ topic, scales = "free") +
-      scale_y_reordered()
+      scale_y_reordered()+theme_light()+ggtitle("LDA Topic-Word Beta Probabilities")
     
     topic_gamma <- tidy(topic, matrix = "gamma")
     topic_gamma <- topic_gamma %>% 
@@ -88,32 +101,31 @@ server <- function(input, output) {
     topic_gamma$document<-as.numeric(topic_gamma$document)
     
     
-    id_time <- mbdata %>% select(c("id","time_1min","message","author"))
+    id_time <- mbdata %>% select(c("id","time_1min","message","author","timestamp"))
     
-    topic_data<-left_join(topic_gamma,id_time,by=c("document"="id"))%>%
-      mutate_if(is.character, ~gsub('[^ -~]', '', .))
+    topic_data<-left_join(topic_gamma,id_time,by=c("document"="id"))
     
-  
+    model$data<-topic_data
     
-    model$plot2<-topic_data %>% group_by(time_1min,topic) %>% count() %>% 
-      ggplot(aes(x=time_1min))+
-      geom_bar(aes(y=n), stat = "identity",fill = "black")+
+    p1<-topic_data %>% group_by(time_1min,topic) %>% count() %>% rename(time=time_1min)
+    p2<-ggplot(p1,aes(x=time))+
+      geom_bar(aes(y=n), stat = "identity",fill = "black")+ggtitle("LDA Topics Trend of Selected Time Period")+
       facet_wrap(~topic)+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())+
-      ggtitle("LDA Topics Trend of Selected Time Period")
+      theme_minimal()+
+      theme(axis.text.x=element_blank())
+    
+    model$plot2<- ggplotly(p2)
     
     
-    model$plot3<-topic_data %>% group_by(topic,author) %>% 
-      summarize(count=n()) %>% 
-      slice_max(count, n = input$topuser) %>% 
-      ungroup()%>%
-      ggplot(aes(x=reorder(author,count), y=count, fill = factor(topic))) +
-      geom_col(show.legend = FALSE) +
-      facet_wrap(~ topic, scales = "free") +
-      scale_y_reordered()+
-      coord_flip()
+    # model$plot2<-topic_data %>% group_by(time_1min,topic) %>% count() %>% 
+    #   ggplot(aes(x=time_1min))+
+    #   geom_bar(aes(y=n), stat = "identity",fill = "black")+
+    #   facet_wrap(~topic)+
+    #   theme(axis.title.x=element_blank(),
+    #         axis.text.x=element_blank(),
+    #         axis.ticks.x=element_blank())+
+    #   ggtitle("LDA Topics Trend of Selected Time Period")
+
     
     
   },ignoreNULL = F);
@@ -123,21 +135,50 @@ server <- function(input, output) {
   
   output$plot1 <- renderPlot({
     model$plot1
-  });
+  },height = 800);
   
-  output$plot2 <- renderPlot({
+  output$plot2 <- renderPlotly({
     model$plot2
   });
   
  
-  output$plot3 <- renderPlot({
-    model$plot3
-  });
-  
-  # output$table <- DT::renderDataTable({
-  #   model$selected
-  #   });
+  output$plot3<-renderPlot({
 
+    validate(
+      #need(input$topicn!="", 'Please input valid topic number'),
+      need(str_detect(input$topicn,"[0-9]+((,[0-9]+)+)?"), 'Please input valid number')
+    )
+
+    topic_data<-model$data
+    topic1<-topic_data %>% group_by(topic,author) %>% summarise(topics_count=n()) %>% ungroup()
+    topic2<-topic_data %>% group_by(author) %>% summarise(total_count=n())%>% ungroup()
+    topic3<-left_join(topic1,topic2,by=c("author"="author"))
+    topic3$User_Topic_Ratio<-topic3$topics_count/topic3$total_count
+
+    selected_topic<-as.integer(str_split(input$topicn,",")[[1]])
+    topic4<-topic3 %>% filter(topic %in% selected_topic)
+
+    ggplot(topic4,aes(x=topic,y=author,color=factor(topic),size=User_Topic_Ratio))+
+      geom_point(alpha=0.5)+
+      theme(legend.position="bottom")+
+      scale_x_discrete()+
+      ggtitle("User Engagement in Major Events")
+
+  },height = 1200, width = 300);
+  
+  output$table<-DT::renderDataTable({
+    
+    selected_topic<-as.integer(str_split(input$topicn,",")[[1]])
+
+
+    topic5<-subset(model$data,select = c(timestamp,author,message,topic)) %>%
+      filter(topic %in% selected_topic)
+
+
+    datatable(data =topic5)
+
+});
+  
 }
 
 

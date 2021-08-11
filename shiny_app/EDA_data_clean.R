@@ -53,7 +53,7 @@ data$cleaned<-data$message %>%
   str_squish()%>% #trim whitespace from a string 
   lemmatize_strings()#removes whitespace from start and end of string
 
-
+data<-data%>% mutate_if(is.character, ~gsub('[^ -~]', '', .))
 
 timeRange1=as.POSIXct("2014-01-23 18:35:00")
 timeRange2=as.POSIXct("2014-01-23 18:50:00")
@@ -147,7 +147,9 @@ ggplot(data_rt2,aes(x=time_1min)) +
   ggtitle("Tweet and Re-Tweets Trend")
 
 
+write.csv(data,"cleaned_data/data.csv")
 
+#######################################################################################################
 
 
 GetHashtags <- function(tweet) {
@@ -258,7 +260,7 @@ ap_top_terms %>%
   ggplot(aes(beta, term, fill = factor(topic))) +
   geom_col(show.legend = FALSE) +
   facet_wrap(~ topic, scales = "free") +
-  scale_y_reordered()
+  scale_y_reordered()+theme_light()
 
 
 topic_gamma <- tidy(topic, matrix = "gamma")
@@ -279,10 +281,56 @@ topic_data %>% group_by(time_1min,topic) %>% count() %>%
   ggplot(aes(x=time_1min))+
   geom_bar(aes(y=n), stat = "identity",fill = "black")+
   facet_wrap(~topic)+
-  theme(axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank())+
+  theme_classic()+
   ggtitle("LDA Topics Trend of Selected Time Period")
+
+
+p1<-topic_data %>% group_by(time_1min,topic) %>% count() %>% rename(time=time_1min)
+p2<-ggplot(p1,aes(x=time))+
+  geom_bar(aes(y=n), stat = "identity",fill = "black")+ggtitle("LDA Topics Trend of Selected Time Period")+
+  facet_wrap(~topic)+
+  theme_minimal()+
+  theme(axis.text.x=element_blank())
+
+ggplotly(p2)
+
+
+topic1<-topic_data %>% 
+  group_by(topic,author) %>% 
+  summarise(topics_count=n()) %>% ungroup()
+topic2<-topic_data %>% group_by(author) %>% summarise(total_count=n())%>% ungroup()
+topic3<-left_join(topic1,topic2,by=c("author"="author"))
+topic3$User_Topic_Ratio<-topic3$topics_count/topic3$total_count
+
+
+ggplot(topic3,aes(x=topic,y=author,color=factor(topic),size=User_Topic_Ratio))+
+  geom_point(alpha=0.5)+
+  theme_light()+
+  scale_x_discrete()+
+  ggtitle("User Engagement in Major Events")
+
+
+
+selected_topic<-as.integer(str_split("1,2",",")[[1]])
+
+topic4<-topic3 %>% filter(topic %in% c(1,2))
+
+ggplot(topic4,aes(x=topic,y=author,color=factor(topic),size=User_Topic_Ratio))+
+  geom_point(alpha=0.5)+
+  #theme(legend.position="bottom")+
+  theme(legend.position="bottom")+
+  scale_x_discrete()+
+  ggtitle("User Engagement in Major Events")
+
+topic5<-subset(topic_data,select = c(timestamp,author,message,topic))
+DT::datatable(data = topic5)
+               
+
+
+
+
+
+
 
 
 
@@ -296,7 +344,7 @@ topic_data %>% group_by(topic,author) %>%
   ungroup()%>%
   ggplot(aes(x=reorder(author,count), y=count, fill = factor(topic))) +
   geom_col(show.legend = FALSE) +
-  facet_wrap(~ topic, scales = "free") +
+  facet_wrap(~ topic, scales = "free")+
   scale_y_reordered()+
   coord_flip()
 
