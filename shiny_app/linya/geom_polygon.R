@@ -48,14 +48,4 @@ tm_shape(Abila_st)+
   tm_shape(intersection2)+
   tm_polygons(col='count')
 
-#To configure with shiny   
-
-#-aesthetics on map
-#tootips-author, message,timestamp number of posts (link with table?)
-#draw sea and road based on sample assignment https://syedahmadzakidataviz.netlify.app/posts/2021-06-08-assignment/
-
-#shiny filter - timestamp / size of polygon (tentative, cos need to save multiple polygon files)
-             #- points / polygon?
-             #type of data -ccdata and mbdata
-
 

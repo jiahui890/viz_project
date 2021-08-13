@@ -4,6 +4,10 @@ library(tidyverse)
 library(lubridate)
 library(wordcloud)
 library(tm)
+library(reshape)
+library(tidytext)
+library(udpipe)
+library(textplot)
 
 
 data<-read.csv("cleaned_data/data.csv")
@@ -11,7 +15,7 @@ data<-read.csv("cleaned_data/data.csv")
 ui <- fluidPage(
   titlePanel("Exploratory Data Analysis"),
   fluidRow(
-    column(width = 6, 
+    column(width = 5, 
            sliderInput("timeRange", label = "Select Time Range",
                        min = as.POSIXct("2014-01-23 17:00:00"),
                        max = as.POSIXct("2014-01-23 21:35:00"),
@@ -25,48 +29,35 @@ ui <- fluidPage(
     br(),
     plotlyOutput("Lineplot2",height = 200)
     ),
-  column(width = 6,
+  column(width = 7,
          br(),
          titlePanel("WordCloud Panel"),
          fluidRow(
-           column(3,numericInput("min", "Min Frequency", 5, min = 1, max = 20)),
-           column(3,numericInput("max", "Max Words", 100, min = 10, max = 200))
+           column(4,numericInput("min", "Min Frequency", 5, min = 1, max = 20)),
+           column(4,numericInput("max", "Max Words", 100, min = 10, max = 200)),
+           column(4,numericInput("topn", "Top n Cooccurance", 20, min = 1, max = 200))
            ),
          
-  tabsetPanel(
-    tabPanel("Tweet", plotOutput("wordcloud_tweet")),
-    tabPanel("Retweet", plotOutput("wordcloud_retweet")), 
-    tabPanel("Hashtag", plotOutput("wordcloud_hashtag")), 
-    tabPanel("Tagged User", plotOutput("wordcloud_usermentioned")), 
-    tabPanel("Call Center", plotOutput("wordcloud_cc"))
-  )
+         tabsetPanel(
+           tabPanel("Tweet", 
+                    fluidRow(column(6,plotOutput("wordcloud_tweet")),
+                             column(6,plotOutput("co_tweet")))
+                    ),
+           tabPanel("Retweet", fluidRow(column(6,plotOutput("wordcloud_retweet")),
+                                        column(6,plotOutput("co_retweet")))
+           ), 
+           tabPanel("Call Center", fluidRow(column(6,plotOutput("wordcloud_cc")),
+                                            column(6,plotOutput("co_cctweet")))
+           ),
+           tabPanel("Hashtag", plotOutput("wordcloud_hashtag")), 
+           tabPanel("Tagged User", plotOutput("wordcloud_usermentioned"))
+           
+         )
   )))
 
 
 server <- function(input, output, session) {
-  
 
-  # output$Lineplot1<- renderPlot({
-  #   
-  #   data2 <- data[data$timestamp>=ymd_hms(input$timeRange[1]) & data$timestamp<=ymd_hms(input$timeRange[2])]
-  #   data2$time_1min <- cut(data2$timestamp, breaks="1 min")
-  #   data2$time_1min <- ymd_hms(data2$time_1min)
-  #   
-  #   counts <- data2 %>%
-  #      group_by(type,time_1min) %>%
-  #      summarise(count = n())
-  # 
-  #   ggplot(counts,
-  #          aes(x=time_1min,
-  #              y=count,
-  #              group=type))+
-  #     geom_line(aes(color=type))+
-  #     ggtitle("Total Number of Events Over Time")+
-  #     xlab("Time") + ylab("Number of Tweets or Calls")+
-  #     xlim( min(counts$time_1min), max(counts$time_1min))+
-  #     theme(axis.text.x = element_text(angle = 90, hjust = 1))+
-  #     theme(plot.title = element_text(hjust = 0.5))
-  # });
   
   output$Lineplot1 <- renderPlotly({
     data2<-data %>% mutate(timestamp=ymd_hms(data$timestamp),time_1min=ymd_hms(data$time_1min)) %>% 
@@ -81,31 +72,11 @@ server <- function(input, output, session) {
        x = ~ time_1min,y = ~ count,type = "scatter",mode = "lines",color=~type)%>% 
        layout(title = 'Tweet and Calls Trend',
               xaxis = list(title = 'Selected Time Period'),
-              yaxis = list(title = 'Number of Tweets/Calls'))
+              yaxis = list(title = 'Number of Tweets/Calls'),hovermode = "x unified")
       
 });
   
-  # output$Lineplot2<- renderPlot({
-  #   
-  #   data2 <- data[data$timestamp>=ymd_hms(input$timeRange[1]) & data$timestamp<=ymd_hms(input$timeRange[2])]
-  #   data2$time_1min <- cut(data2$timestamp, breaks="1 min")
-  #   data2$time_1min <- ymd_hms(data2$time_1min)
-  #   
-  #   data_rt2<-data2 %>% 
-  #     group_by(time_1min) %>% 
-  #     summarise(post=n(),
-  #               rt_post=sum(RT_from!=""))
-  #   
-  #   data_rt2$time_1min=ymd_hms(data_rt2$time_1min)
-  #   
-  #   
-  #   ggplot(data_rt2,aes(x=time_1min)) +
-  #     geom_line(aes(y=post,color="tweet")) +
-  #     geom_line(aes(y=rt_post,color="retweet")) +
-  #     theme(axis.text.x = element_text(angle = 90, hjust = 1))+
-  #     ggtitle("Tweet and Re-Tweets Trend")
-  # });
-  
+
   output$Lineplot2 <- renderPlotly({
     data2<-data %>% mutate(timestamp=ymd_hms(data$timestamp),time_1min=ymd_hms(data$time_1min)) %>% 
       filter(timestamp>=ymd_hms(input$timeRange[1])+ hours(8) & timestamp<=ymd_hms(input$timeRange[2])+ hours(8))
@@ -124,7 +95,7 @@ server <- function(input, output, session) {
         add_trace(y = ~rt_post, name = 'retweet', line = list(color = 'rgb(205, 12, 24)'))%>% 
         layout(title = 'Tweet and Retweet Trend',
                xaxis = list(title = 'Selected Time Period'),
-               yaxis = list(title = 'Number of Posts'))
+               yaxis = list(title = 'Number of Posts'),hovermode = "x unified")
   });
   
   wordcloud_rep <- repeatable(wordcloud)
@@ -144,6 +115,23 @@ server <- function(input, output, session) {
               colors=brewer.pal(8, "Dark2"))
     });
   
+  output$co_tweet<- renderPlot({
+    
+    data2<-data %>% mutate(timestamp=ymd_hms(data$timestamp),time_1min=ymd_hms(data$time_1min)) %>% 
+      filter(timestamp>=ymd_hms(input$timeRange[1])+ hours(8) & timestamp<=ymd_hms(input$timeRange[2])+ hours(8)) %>% 
+      filter(type=='mbdata')
+    
+    x<-data2 %>% 
+      unnest_tokens(word,cleaned)
+    x<-cooccurrence(x, group = "id", term = "word")
+    x$cooc<-log10(x$cooc)
+    textplot_cooccurrence(x,
+                          title = "Co-occurrences", top_n = input$topn)
+    
+    
+    
+  });
+  
   
   output$wordcloud_cc<- renderPlot({
     data2<-data %>% mutate(timestamp=ymd_hms(data$timestamp),time_1min=ymd_hms(data$time_1min)) %>% 
@@ -158,6 +146,26 @@ server <- function(input, output, session) {
               max.words=input$max, random.order=FALSE, rot.per=0.35,
               colors=brewer.pal(8, "Dark2"))
   });    
+  
+  
+  output$co_cctweet<- renderPlot({
+    
+    data2<-data %>% mutate(timestamp=ymd_hms(data$timestamp),time_1min=ymd_hms(data$time_1min)) %>% 
+      filter(timestamp>=ymd_hms(input$timeRange[1])+ hours(8) & timestamp<=ymd_hms(input$timeRange[2])+ hours(8)) %>% 
+      filter(type=='ccdata')
+    
+    x<-data2 %>% 
+      unnest_tokens(word,cleaned)
+    x<-cooccurrence(x, group = "id", term = "word")
+    x$cooc<-log10(x$cooc)
+    textplot_cooccurrence(x,
+                          title = "Co-occurrences", top_n = input$topn)
+    
+    
+    
+  });
+  
+  
     
     output$wordcloud_retweet<- renderPlot({
       data2<-data %>% mutate(timestamp=ymd_hms(data$timestamp),time_1min=ymd_hms(data$time_1min)) %>% 
@@ -172,7 +180,22 @@ server <- function(input, output, session) {
                 colors=brewer.pal(8, "Dark2"))
       });
   
-      
+  output$co_retweet<- renderPlot({
+    
+    data2<-data %>% mutate(timestamp=ymd_hms(data$timestamp),time_1min=ymd_hms(data$time_1min)) %>% 
+      filter(timestamp>=ymd_hms(input$timeRange[1])+ hours(8) & timestamp<=ymd_hms(input$timeRange[2])+ hours(8)) %>% 
+      filter(type=='mbdata')
+    
+    x<-data2 %>% 
+      unnest_tokens(word,RT_message_cleaned)
+    x<-cooccurrence(x, group = "id", term = "word")
+    x$cooc<-log10(x$cooc)
+    textplot_cooccurrence(x,
+                          title = "Co-occurrences", top_n = input$topn)
+    
+    
+    
+  });
       
       
       output$wordcloud_hashtag<- renderPlot({

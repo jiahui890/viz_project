@@ -1,12 +1,15 @@
 ---
-title: Short Paper
+title: Visual Dashboard for Real-Time Analysis of Social Media
 author:
-  - name: Alice Anonymous
-    email: alice@example.com
-    affiliation: Some Institute of Technology
-  - name: Bob Security
-    email: bob@example.com
-    affiliation: Another University
+  - name: Huang Linya
+    email: linya.huang.2020@smu.edu.sg
+    affiliation: Singapore Management University
+  - name: Lim Jiahui
+    email: jiahui.lim.2020@smu.edu.sg
+    affiliation: Singapore Management University
+  - name: Zhang Ying
+    email: ying.zhang.2020@smu.edu.sg
+    affiliation: Singapore Management University   
 abstract: |
   This is the abstract.
 
@@ -19,17 +22,46 @@ output: rticles::acm_article
 
 
 # Introduction 
-Lorem ipsum dolor sit[@meier2012] amet, consectetur adipiscing[@fenner2012a] elit. Pellentesque rhoncus ut tellus eu tristique. Duis pharetra velit vitae viverra elementum. Nulla metus dui, pulvinar id enim at, pellentesque semper ipsum. Phasellus cursus dignissim ipsum, sed congue orci pretium quis. Maecenas rhoncus leo a cursus euismod. Fusce a erat eu ipsum tristique tempus at sed tortor. Aliquam erat volutpat. Donec at pretium lorem. Donec pretium nunc id nunc bibendum convallis. Phasellus quis enim id massa feugiat egestas hendrerit sollicitudin nibh. Sed blandit eros id tellus porta, eget ullamcorper urna posuere. Pellentesque laoreet lacus nibh, a mattis libero viverra sit amet. Sed vitae diam interdum, pharetra neque sit amet, dictum lectus.
 
-Donec massa justo, ultricies quis facilisis sed, tristique nec metus. Vestibulum id condimentum diam. Integer semper augue id porttitor ultrices. Cras vulputate felis eu diam porttitor, ac pulvinar nisi imperdiet. Donec eros felis, imperdiet vel malesuada at, varius et quam. Phasellus facilisis non risus eu placerat. Sed ac mollis lorem.
+Detecting abnormal events ,such as disaster or crisis, from microblog social media has become a trend, as social media has played a pervasive role in the way people behave and think. Nowadays, people are also using time-stamped , geo -located data to share live information about what’s happening in their surroundings, which enables the public, government and researches to sense abnormal events in community more quickly and take immediate actions.
 
-# Evaluation
-Nullam semper imperdiet orci, at lacinia est aliquet et. Sed justo nibh, aliquet et velit at, pharetra consequat velit. Nullam nec ligula sagittis, adipiscing nisl sed, varius massa. Mauris quam ante, aliquet a nunc et, faucibus imperdiet libero. Suspendisse odio tortor, bibendum vel semper sit amet, euismod ac ante. Nunc nec dignissim turpis, ac blandit massa. Donec auctor massa ac vestibulum aliquam. Fusce auctor dictum lobortis. Vivamus tortor augue, convallis quis augue sit amet, laoreet tristique quam. Donec id volutpat orci. Suspendisse at mi vel elit accumsan porta ac ut diam. Nulla ut dapibus quam.
+To better analyzing and visualizing social media texts,  several text analytics techniques can be applied, such as wordcloud, topic modeling, network analysis, geospail analysis and so on. In real-world practices, researchers has built various social media text visualization in different domain and lack of an integrated visualization.
 
-Sed est odio, ornare in rutrum et, dapibus in urna. Suspendisse varius massa in ipsum placerat, quis tristique magna consequat. Suspendisse non convallis augue. Quisque fermentum justo et lorem volutpat euismod. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi sagittis interdum justo, eu consequat nisi convallis in. Sed tincidunt risus id lacinia ultrices. Phasellus ac ligula sed mi mattis lacinia ac non felis. Etiam at dui tellus.
+In order to build a comprehend visualization dashboard with an interactive user interface, we buit the application based on R shiny - a web application framework to create interactive web applications - and text analytical R packages. 
 
-# Conclusion
-Duis nec purus sed neque porttitor tincidunt vitae quis augue. Donec porttitor aliquam ante, nec convallis nisl ornare eu. Morbi ut purus et justo commodo dignissim et nec nisl. Donec imperdiet tellus dolor, vel dignissim risus venenatis eu. Aliquam tempor imperdiet massa, nec fermentum tellus sollicitudin vulputate. Integer posuere porttitor pharetra. Praesent vehicula elementum diam a suscipit. Morbi viverra velit eget placerat pellentesque. Nunc congue augue non nisi ultrices tempor.
+This paper reports our research and development effort to the real-time social media microblog analysis. It consists of XXX sections. Section 1 provides a general introduction of the paper, followed by a motivation and objectives of the paper. Section 3 provides a literature review of related analytical techniques and Section 4 provides the discussion of analytical methods applied in our analysis and development. Then we will discuss the user interface and application design and provides examples of analysis flow. Lastly, the paper concludes with consideration of future improvement work.
+
+
+# Motivation and Objectives
+
+Our research are motivated by the lack of integrated and comprehensive real-time social-media dashboard. We amis to apply appropriate text analytics method and visually driven data analysis techniques to provide a handy analytic tools to help users understand the social-media posting through various approaches,
+
+1) Exploratory Data Analysis (EDA) and Time-series Analysis by basic statistical and world cloud visualization, which will provide a overview of content being discussed and help to highlight past events that occurred at certain areas;
+
+2) Topic Modeling techniques by Latent Dirichlet Allocation algorithm will be performed to understand topics generated from text data. And  topic trend and user engagement of each topic will be provided to understand the trend and public response to the topic;
+
+3) Network Analysis will be performed based on the re-tweet relationship between users to discover influential authors. We will also analysis the various centrality methods of the network and their distributions to help users explore and identify social relationships, interactions, and communications;
+
+4) Hexagon Binning Map discussed in research paper (Kam,BARSHIKAR,TAN 2012) will be applied to show real-time location-stamped text distribution in the community. By visualizing color with gradient, users can quickly locate the hexagon districts with the posts information and subsequently estimate the risk level in specific areas.
+
+# Literature Review
+
+
+
+
+
+
+
+# Analytical Methods
+
+
+# User Interface and Application Design
+
+# Results Analysis
+
+# Conclusion and Future Work
+
+
 
 # References
 

@@ -3,6 +3,11 @@ library(topicmodels)
 library(DT)
 library(tidytext)
 library(tm)
+library(plotly)
+library(dplyr)
+library(lubridate)
+library(stringr)
+
 
 data<-read.csv("cleaned_data/data.csv")
 
@@ -22,6 +27,7 @@ ui <- fluidPage(
                     as.POSIXct("2014-01-23 21:35:00")
                   )),
       numericInput("k", "Number of Topics:", 10, min = 2, max = 20),
+      numericInput("alpha", "Alpha - hyperparameter for topic proportions:", 0.01, min = 0.0000001, max = 1),
       numericInput("iter", "Number of Iterations:", 200, min = 50, max = 500),
       numericInput("topn", "Top n words in topic:", 10, min = 1, max = 20),
       actionButton("do", strong("Apply Change"))
@@ -74,7 +80,7 @@ server <- function(input, output) {
     rowTotals <- apply(dtm , 1, sum) #Find the sum of words in each Document
     dtm.new   <- dtm[rowTotals> 0, ] #remove 0 dtm rows of matrix
     
-    topic=LDA(dtm.new,k=input$k,method="Gibbs",conrol=list(seed=2021,alpha=0.01,iter=input$iter))
+    topic=LDA(dtm.new,k=input$k,method="Gibbs",conrol=list(seed=2021,alpha=input$alpha,iter=input$iter))
     
 
     ap_topics <- tidy(topic, matrix = "beta")
@@ -107,12 +113,14 @@ server <- function(input, output) {
     
     model$data<-topic_data
     
-    p1<-topic_data %>% group_by(time_1min,topic) %>% count() %>% rename(time=time_1min)
+    p1<-topic_data %>% group_by(time_1min,topic) %>% count() %>% ungroup() %>% 
+      mutate(time=time_1min+hours(16))
+    
     p2<-ggplot(p1,aes(x=time))+
-      geom_bar(aes(y=n), stat = "identity",fill = "black")+ggtitle("LDA Topics Trend of Selected Time Period")+
-      facet_wrap(~topic)+
+      geom_bar(aes(y=n), stat = "identity",fill = "black")+
+      ggtitle("LDA Topics Trend of Selected Time Period")+
       theme_minimal()+
-      theme(axis.text.x=element_blank())
+      facet_wrap(~topic)
     
     model$plot2<- ggplotly(p2)
     
@@ -162,9 +170,9 @@ server <- function(input, output) {
       geom_point(alpha=0.5)+
       theme(legend.position="bottom")+
       scale_x_discrete()+
-      ggtitle("User Engagement in Major Events")
+      ggtitle("User Engagement %")
 
-  },height = 1200, width = 300);
+  },height = 1600, width = 300);
   
   output$table<-DT::renderDataTable({
     
