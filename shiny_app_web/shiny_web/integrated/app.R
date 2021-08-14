@@ -21,11 +21,35 @@ library(tidygraph)
 library(igraph)
 library(visNetwork)
 library(reshape2)
-
+library(mapview)
+library(tmap)
+library(leaflet)
+library(crosstalk)
+library(sf)
 
 
 
 data<-read.csv("cleaned_data/data.csv")
+
+
+
+# reading shape files
+Abila <- st_read(dsn = "cleaned_data/Geospatial", layer = "Abila")
+
+p = npts(Abila, by_feature = TRUE)
+Abila_st <- cbind(Abila, p) %>%
+    mutate(ID = 1:nrow(Abila)) %>%  #giving unique ID for each line
+    filter(p>1)  #removing orphan points
+
+merged_final<-st_read(dsn = "cleaned_data/merged_final", layer = "merged_final")
+
+merged_final<-left_join(merged_final,data,by="id")
+
+# ======== Hexagon ==========
+Abila_hex <- st_read(dsn = "cleaned_data/geo2", layer = "hex_final")
+
+
+#########################################################################
 
 
 ui <- fluidPage(
@@ -85,7 +109,7 @@ ui <- fluidPage(
                  sidebarLayout(
                      
                      sidebarPanel(width = 3,
-                                  h2(strong("Filter Panel"), style = "font-size:20px;"),
+                                  h2(strong("Filter Panel"), style = "font-size:40px;"),
                                   sliderInput("timeRange", label = "Select Time Range",
                                               min = as.POSIXct("2014-01-23 09:00:00"),
                                               max = as.POSIXct("2014-01-23 13:35:00"),
@@ -127,7 +151,8 @@ ui <- fluidPage(
                  
                  sidebarLayout(
                      sidebarPanel(width = 3,
-                                  sliderInput("timeRange", label = "Time range",
+                                  h2(strong("Filter Panel"), style = "font-size:40px;"),
+                                  sliderInput("timeRange", label = "Selecte Time range",
                                               min = as.POSIXct("2014-01-23 09:00:00"),
                                               max = as.POSIXct("2014-01-23 13:35:00"),
                                               value = c(
@@ -137,15 +162,15 @@ ui <- fluidPage(
                                   
                                   selectInput("var1", "Select Centrality Measurement:",
                                               c("In Degree","Out Degree","Closeness","Eigenvector")),
-                                  "In Degree:",
+                                  "In Degree: the number of ties directed to the node (popularity).",
                                   br(),
-                                  "Out Degree:",
+                                  "Out Degree: the number of ties that the node directs to others (gregariousness).",
                                   br(),
-                                  "Closeness:",
+                                  "Closeness: a measure of the closeness of a node to all other nodes.",
                                   br(),
-                                  "Eigenvector:",
+                                  "Eigenvector: a measure of the influence of a node in a network.",
                                   br(),
-                                  actionButton("do", "Apply Change")
+                                  actionButton("do1", "Apply Change")
                                   
                      ),
                      mainPanel(
@@ -158,7 +183,41 @@ ui <- fluidPage(
                  )
                  
                  ),
-        tabPanel("Geo Analysis", "five")
+        tabPanel("Geo Analysis", 
+                 sidebarLayout(
+                     sidebarPanel(width = 3,
+                                  h2(strong("Filter Panel"), style = "font-size:20px;"),
+                                  sliderInput("timeRange", label = "Select Time Range",
+                                              min = as.POSIXct("2014-01-23 09:00:00"),
+                                              max = as.POSIXct("2014-01-23 13:35:00"),
+                                              value = c(
+                                                  as.POSIXct("2014-01-23 09:00:00"),
+                                                  as.POSIXct("2014-01-23 13:35:00")
+                                              )),
+                                  selectInput("var1", "Select Data Type:",
+                                              c("All","Call-Center","Microblog")),
+                                  actionButton("do2", strong("Apply Change"))
+                     ),
+                     
+                     
+                     mainPanel(
+                         h4("Hover and click onto the map for more details."),
+                         br(),
+                         strong("CC and MB data:"),
+                         p("Plot shows the various geolocation for microblogs and call-center messages filtered by time and type."),
+                         br(),
+                         strong("Hexagon Plot:"),
+                         p("Shows the hotspots (by frequency of messages)"),
+                         br(),
+                         tabsetPanel(
+                             tabPanel("CC and MB Data", tmapOutput("plot11")), 
+                             tabPanel("Hexagon Plot", tmapOutput("plot22"))
+                         )
+                     )
+                 )
+                 
+                 
+                 )
     )
     
         
@@ -369,7 +428,7 @@ server <- function(input, output){
     
     model2 <- reactiveValues(Data=NULL)
     
-    observeEvent(input$do,{
+    observeEvent(input$do1,{
         
         RT_edges <- data %>% mutate(timestamp=ymd_hms(data$timestamp),time_1min=ymd_hms(data$time_1min)) %>% 
             filter(timestamp>=ymd_hms(input$timeRange[1])+ hours(8) & timestamp<=ymd_hms(input$timeRange[2])+ hours(8))%>% 
@@ -414,7 +473,7 @@ server <- function(input, output){
         
         nodes <- get.data.frame(RT_graph, what="vertices") 
         #nodes$size<-round(nodes$size,3)
-        nodes$title<-paste("id: "nodes$id, "<br> Value:",nodes$size)
+        nodes$title<-paste("id: ",nodes$id, "<br> Value:",nodes$size)
         
         model2$net<-visNetwork(nodes, RT_edges_agg, height = "500px", width = "100%") %>%
             visOptions(selectedBy = "size", highlightNearest = list(enabled = T, hover = T), 
@@ -589,9 +648,71 @@ server <- function(input, output){
         
     });
     
+    model3 <<- reactiveValues(Data=NULL)
     
+    observeEvent(input$do2, {
+        
+        
+        
+        merged_final2 <- merged_final %>% 
+            filter(timestamp>=ymd_hms(input$timeRange[1])+ hours(8) & timestamp<=ymd_hms(input$timeRange[2])+ hours(8))
+        
+        if(input$var1=="Call-Center"){
+            merged_final2<-merged_final2 %>% filter(type=="ccdata")
+        } else if (input$var1=="Microblog"){
+            merged_final2<-merged_final2 %>% filter(type=="mbdata")
+        } else {
+            merged_final2<-merged_final2
+        }
+        
+        
+        # === plot ====
+        
+        tmap_mode("view")
+        
+        model3$plot11 <- tm_shape(Abila_st) +
+            tm_lines() +
+            tm_shape(merged_final2) +
+            tm_dots(col = "type", palette = c(cc='red',mb='blue'), 
+                    popup.vars = c("timestamp","type","author","message")) +
+            tm_layout(title= 'Geo-locations cc and mb')
+        
+        
+        # Hexagon
+        
+        intersection<-st_set_geometry(st_intersection(merged_final2,Abila_hex), NULL)
+        intersection<-left_join(intersection,Abila_hex,by=c('left','bottom','right','top'))
+        
+        #count number of posts in each polygon
+        intersection<-intersection %>% group_by(left,bottom,right,top) %>% 
+            mutate(count = n())
+        
+        intersection<-st_as_sf(intersection)
+        
+        
+        # === plot ===
+        
+        model3$plot22<- tm_shape(Abila_hex) +
+            tm_polygons() +
+            tm_shape(Abila_st) +
+            tm_lines() +
+            tm_shape(intersection) +
+            tm_polygons(col='count')
+        
+        
+        
+    },ignoreNULL = F);
     
+    # render plots
     
+    output$plot11 <- renderTmap({
+        model3$plot11
+        
+    });
+    
+    output$plot22 <- renderTmap({
+        model3$plot22
+    });
     
     
 }

@@ -8,75 +8,13 @@
 
 
 
-<title>A Better Reproducible Poster Title</title>
+<title>G9_poster.knit</title>
 
 
 <script src="G9_poster_files/accessible-code-block-0.0.1/empty-anchor.js"></script>
 
 
-<style type="text/css">code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */</style>
+
 
 
 <!--
@@ -88,7 +26,7 @@ Font-awesome icons ie github or twitter
 <!--
 Google fonts api stuff
 -->
-<link href='https://fonts.googleapis.com/css?family=Special Elite' rel='stylesheet'>
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
 <link href='https://fonts.googleapis.com/css?family=Rasa' rel='stylesheet'>
 
 <!--
@@ -96,17 +34,17 @@ Here are the required style attributes for css to make this poster work :)
 -->
 <style>
 @page {
-size: 36in 48in;
+size: 23.39in 33.11in;
 margin: 0;
 padding: 0;
 }
 body {
 margin: 0px;
 padding: 0px;
-width: 36in;
-height: 48in;
+width: 23.39in;
+height: 33.11in;
 text-align: justify;
-font-size: 45px;
+font-size: 25px;
 line-height: 1.05;
 }
 /* RMarkdown Class Styles */
@@ -140,8 +78,8 @@ border-radius: 2mm;
 code {
 font-size: 25pt;
 font-family: monospace;
-background-color: #00808024;
-color: #0b4545;
+background-color: #1a17b324;
+color: #1a17b3;
 padding: 1.2mm;
 line-height: 1;
 border-radius: 2mm;
@@ -153,7 +91,7 @@ font-style: italic;
 }
 
 tbody tr:nth-child(odd) {
-    background-color: #00808020;
+    background-color: #1a17b320;
 }
 .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td{
   border-spacing: 0;
@@ -187,8 +125,8 @@ float: left;
 padding: 0px;
 }
 .outer {
-width: 36in;
-height: calc(48in *  (1 - 0.2 - 0.1 - 0.01) );
+width: 23.39in;
+height: calc(33.11in *  (1 - 0.09 - 0.07 - 0.01) );
 -webkit-column-count: 3; /* Chrome, Safari, Opera */
 -moz-column-count: 3; /* Firefox */
 column-count: 3;
@@ -209,20 +147,20 @@ column-rule-style: none;
 column-rule-color: black;
 background-color: #ffffff;
 font-family: Rasa;
-margin-top: calc(48in *  0.2 );
+margin-top: calc(33.11in *  0.09 );
 padding-top: 1em;
 padding-bottom: 1em;
 }
 span.citation {
-  color: #008080;
+  color: #1a17b3;
   font-weight: bold;
 }
 a {
 text-decoration: none;
-color: #008080;
+color: #1a17b3;
 }
 #title {
-font-size: 125pt;
+font-size: 30pt;
 text-align: left;
 margin: 0;
 line-height: 98%;
@@ -231,20 +169,20 @@ font-weight: normal;
 background: 0;
 }
 #author {
-color: #0b4545;
+color: #1a17b3;
 margin: 0;
 line-height: 85%;
-font-size: 1.17em;
+font-size: 20pt;
 }
 #affiliation {
 padding-top: 0.1em;
 color: ;
 font-style: italic;
-font-size: 25px;
+font-size: 15pt;
 margin: 0;
 }
 sup {
-color: #cc0000;
+color: #00A699;
 }
 .affiliation sup {
 font-size: 20px;
@@ -256,10 +194,10 @@ text-align: left;
 font-size: 30px;
 }
 .author_extra {
-color: #008080;
+color: #1a17b3;
 margin: 0;
 line-height: 85%;
-font-size: 35px;
+font-size: 15pt;
 text-align: left;
 }
 .outer h1, h2, h3, h4, h5, h6 {
@@ -275,9 +213,9 @@ font-weight: bold;
       to left,
       #ffffff 1%,
       #ffffff 20%,
-      #0b454575 33%,
-      #0b4545 50%,
-      #0b454575 66%,
+      #1a17b375 33%,
+      #1a17b3 50%,
+      #1a17b375 66%,
       #ffffff 80%,
       #ffffff 99%
     )
@@ -301,13 +239,13 @@ padding-right: 8%;
 text-align: left;
 }
 .main {
-width: 36in;
-height: calc(48in * 0.2);
+width: 23.39in;
+height: calc(33.11in * 0.09);
 position: absolute;
-background-color: #0b4545;
+background-color: #1a17b3;
 color: #ffffff90;
-font-family: Special Elite;
-background-image: linear-gradient(#0b4545 50%,#008080);
+font-family: Roboto;
+background-image: linear-gradient(#1a17b3 50%,#1a17b3);
 }
 .main strong {
 color: #ffffff;
@@ -326,7 +264,7 @@ position: absolute;
 }
 #main-img-center {
 width: 10%;
-left: calc(36in * 0.45);
+left: calc(23.39in * 0.45);
 bottom: 0.5in;
 position: absolute;
 }
@@ -337,8 +275,8 @@ bottom: 0.2in;
 position: absolute;
 }
 .main p {
-font-size: 150px;
-font-family: Special Elite;
+font-size: 80px;
+font-family: Roboto;
 text-align: center;
 margin: 0;
 position: absolute;
@@ -367,17 +305,17 @@ font-size: 5px;
 text-decoration: none;
 }
 .poster_wrap {
-width: 36in;
-height: 48in;
+width: 23.39in;
+height: 33.11in;
 padding: 0cm;
 }
 .main_bottom {
-width: 36in;
-height: calc(48in * 0.1);
-margin-top: calc(48in * (1 - 0.1));
+width: 23.39in;
+height: calc(33.11in * 0.07);
+margin-top: calc(33.11in * (1 - 0.07));
 position: absolute;
-background-color: #0b4545;
-background-image: linear-gradient(#008080 10%, #0b4545);
+background-color: #1a17b3;
+background-image: linear-gradient(#1a17b3 10%, #1a17b3);
 }
 .section {
   padding-left: 10mm;
@@ -428,397 +366,124 @@ span > #tab:mytable {
 
 <div class="column outer">
 <div class="section">
-<h1 id="title"><strong>A Better Reproducible Poster Title</strong></h1><br>
+
 <h3 id="author" class="author">
 
-<strong>W. Brent Thorne</strong><sup> 1, <a class="orcid" href="https://orcid.org/0000-0002-1099-3857"><img src="https://raw.githubusercontent.com/brentthorne/posterdown/master/images/orcid.jpg"></a></sup><br>
-<a class="twitter" href="https://mobile.twitter.com/brentthorne18"><i class="fab fa-twitter"></i>&nbsp;&nbsp;@brentthorne18</a><br>
+<strong>Huang Linya</strong><sup> 1</sup><br>
 
-<a class='envelope'><i class="fas fa-envelope"></i></a> <a href="mailto:bthorne2@brocku.ca" class="email">bthorne2@brocku.ca</a> <br>
- Another G. Contributor<sup> 2</sup><br>
+<a class='envelope'><i class="fas fa-envelope"></i></a> <a href="mailto:linya.huang.2020@mitb.smu.edu.sg" class="email">linya.huang.2020@mitb.smu.edu.sg</a> <br>
+ <strong>Lim Jiahui</strong><sup> 1</sup><br>
 
-<a class='envelope'><i class="fas fa-envelope"></i></a> <a href="mailto:ag.con@posterdown.net" class="email">ag.con@posterdown.net</a> <br>
-     </h3>
+<a class='envelope'><i class="fas fa-envelope"></i></a> <a href="mailto:jiahui.lim.2020@mitb.smu.edu.sg" class="email">jiahui.lim.2020@mitb.smu.edu.sg</a> <br>
+ <strong>Zhang Ying</strong><sup> 1</sup><br>
+
+<a class='envelope'><i class="fas fa-envelope"></i></a> <a href="mailto:ying.zhang.2020@mitb.smu.edu.sg" class="email">ying.zhang.2020@mitb.smu.edu.sg</a> <br>
+</h3>
 
 <h5 id="author_extra", class="author_extra">
-  Person Three<sup>3</sup>
- Person Four<sup>2</sup>
- Person Five<sup>3</sup>
- Person Six<sup>3</sup>
- A. Seventh Author<sup>2</sup>
-</h5>
+  </h5>
 
 
 <p id="affiliation" class="affiliation">
-<sup>1</sup> Department of Earth Science, Brock University<br> <sup>2</sup> Department of Graphics and Layouts, University of Posters; Canada<br> <sup>3</sup> Another Institute of a place where work gets done, Earth, Milky Way
+<sup></sup> School of Computing and Information, Singapore Management University
 </p>
 </div>
 
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>This is the <code>posterdown_betterport</code> template for the {posterdown} package! I was inspired by the twitter thread of <a href="https://mobile.twitter.com/mikemorrison/status/1110191245035479041">Mike Morrison</a> and wanted to apply the <code>#betterposter</code> concept to the reproducible (yet simple to use) functionality of the {posterdown} package <span class="citation">(Thorne <a href="#ref-R-posterdown" role="doc-biblioref">2019</a>)</span>. If you’re not an R user don’t sweat as you do <strong>NOT</strong> need to use it at all! Feel free to use only the Markdown functionality of this package :)</p>
-<div id="objectives" class="section level2">
-<h2>Objectives</h2>
-<ol style="list-style-type: decimal">
-<li>Pick a template layout.</li>
-<li>Write/ create your poster content distraction free.</li>
-<li>Let posterdown do its thing!</li>
-</ol>
+<p>Detecting abnormal events, such as disaster or crisis, from microblog social media has become a trend, as social media has played a pervasive role in the way people behave and think. Nowadays, people are also using time-stamped, geo -located data to share live information about what’s happening in their surroundings, which enables the public, government and researchers to identify abnormal events in community more quickly and take immediate actions.</p>
+<p>To better analyzing and visualizing social media texts, several text analytics techniques can be applied, such as word cloud, topic modeling, network analysis, geospatial analysis and so on. In real-world practices, researchers have built various social media text visualization using different techniques, but their solutions lack an integrated way of working.</p>
+<p>In order to build a comprehend visualization dashboard with an interactive user interface, we built the application based on R shiny - a web application framework to create interactive web applications - and text analytical R packages.</p>
 </div>
+<div id="motivation" class="section level1">
+<h1>Motivation</h1>
+<p>Our research is motivated by the lack of integrated and comprehensive real-time social-media dashboard. We aim to apply appropriate text analytics method and visually driven data analysis techniques in R language and R shiny to provide a handy analytic tool to help users understand the social-media posting through social media post analytics approaches.</p>
 </div>
-<div id="methods" class="section level1">
-<h1>Methods</h1>
-<p>I will show here how to include poster elements that may be useful, such as an equation using mathjax:</p>
-<p><span class="math display">\[
-E = mc^2
-\]</span></p>
-<p>To reference a citation you can add your <code>.bib</code> file to the working directory and name it in the YAML metadata or generate an automated one as done here, then you only need to reference the label value in the <code>.bib</code> file. For example this package is built on top of the wonderful {pagedown} package and I will cite it at the end of this sentance using this in the rmd <code>[@R-pagedown]</code> <span class="citation">(Xie et al. <a href="#ref-R-pagedown" role="doc-biblioref">2021</a>)</span>.</p>
-<p>To get a better understanding of how to include features like these please refer to the {posterdown} <a href="https://github.com/posterdown/wiki">wiki</a>.</p>
-<p><strong><em>Now on to the results!</em></strong></p>
+<div id="approach" class="section level1">
+<h1>Approach</h1>
+<p><img src="image/design.png" width="80%" style="display: block; margin: auto;" />
+<img src="image/framework.png" width="80%" style="display: block; margin: auto;" />
+<img src="image/tool.png" width="80%" style="display: block; margin: auto;" /></p>
 </div>
-<div id="results" class="section level1">
-<h1>Results</h1>
-<p>Here you may have some figures to show off, bellow I have made a scatterplot with the infamous Iris dataset and I can even reference to the figure automatically like this, <code>Figure \@ref(fig:irisfigure)</code>, Figure <a href="#fig:irisfigure">1</a>.</p>
-<div class="figure" style="text-align: center"><span id="fig:irisfigure"></span>
-<img src="G9_poster_files/figure-html/irisfigure-1.png" alt="Here is a caption for the figure. This can be added by using the &quot;fig.cap&quot; option in the r code chunk options, see this [link](https://yihui.name/knitr/options/#plots) from the legend himself, [Yihui Xie](https://twitter.com/xieyihui)." width="80%" />
-<p class="caption">
-Figure 1: Here is a caption for the figure. This can be added by using the “fig.cap” option in the r code chunk options, see this <a href="https://yihui.name/knitr/options/#plots">link</a> from the legend himself, <a href="https://twitter.com/xieyihui">Yihui Xie</a>.
-</p>
-</div>
-<p>Maybe you want to show off some of that fancy code you spent so much time on to make that figure, well you can do that too! Just use the <code>echo=TRUE</code> option in the r code chunk options, Figure <a href="#fig:myprettycode">2</a>!</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">#trim whitespace</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">par</span>(<span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="co">#plot boxplots</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">boxplot</span>(iris<span class="op">$</span>Sepal.Width<span class="op">~</span>iris<span class="op">$</span>Species,</span>
-<span id="cb1-5"><a href="#cb1-5"></a>        <span class="dt">col =</span> <span class="st">&quot;#008080&quot;</span>, </span>
-<span id="cb1-6"><a href="#cb1-6"></a>        <span class="dt">border =</span> <span class="st">&quot;#0b4545&quot;</span>,</span>
-<span id="cb1-7"><a href="#cb1-7"></a>        <span class="dt">ylab =</span> <span class="st">&quot;Sepal Width (cm)&quot;</span>,</span>
-<span id="cb1-8"><a href="#cb1-8"></a>        <span class="dt">xlab =</span> <span class="st">&quot;Species&quot;</span>)</span></code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:myprettycode"></span>
-<img src="G9_poster_files/figure-html/myprettycode-1.png" alt="Boxplots, so hot right now!" width="80%" />
-<p class="caption">
-Figure 2: Boxplots, so hot right now!
-</p>
-</div>
-<p>How about a neat table of data? See, Table <a href="#tab:iristable">1</a>:</p>
+<div id="datasets" class="section level1">
+<h1>Datasets</h1>
+<p>VAST Challenge 2021 Mini-Challenge 3 poses a social media and text analysis challenge to detect the meaningful event reports, evaluate risk level, public influence and suggest team of first response based on location-stamped posts. It provides the collection of microblogs and emergency calls from the event day and geospatial map of the corresponding areas.</p>
 <table>
-<caption>
-<span id="tab:iristable">Table 1: </span>A table made with the <strong>knitr::kable</strong> function.
-</caption>
+<colgroup>
+<col width="22%" />
+<col width="38%" />
+<col width="38%" />
+</colgroup>
 <thead>
-<tr>
-<th style="text-align:center;">
-Sepal <br> Length
-</th>
-<th style="text-align:center;">
-Sepal <br> Width
-</th>
-<th style="text-align:center;">
-Petal <br> Length
-</th>
-<th style="text-align:center;">
-Petal <br> Width
-</th>
-<th style="text-align:center;">
-Species
-</th>
+<tr class="header">
+<th align="left">No</th>
+<th align="left">Dataset</th>
+<th align="left">Information</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:center;">
-5.1
-</td>
-<td style="text-align:center;">
-3.5
-</td>
-<td style="text-align:center;">
-1.4
-</td>
-<td style="text-align:center;">
-0.2
-</td>
-<td style="text-align:center;">
-setosa
-</td>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">Aliba.shp</td>
+<td align="left">Aliba geospatial map file with geometry information.</td>
 </tr>
-<tr>
-<td style="text-align:center;">
-4.9
-</td>
-<td style="text-align:center;">
-3.0
-</td>
-<td style="text-align:center;">
-1.4
-</td>
-<td style="text-align:center;">
-0.2
-</td>
-<td style="text-align:center;">
-setosa
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-4.7
-</td>
-<td style="text-align:center;">
-3.2
-</td>
-<td style="text-align:center;">
-1.3
-</td>
-<td style="text-align:center;">
-0.2
-</td>
-<td style="text-align:center;">
-setosa
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-4.6
-</td>
-<td style="text-align:center;">
-3.1
-</td>
-<td style="text-align:center;">
-1.5
-</td>
-<td style="text-align:center;">
-0.2
-</td>
-<td style="text-align:center;">
-setosa
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-5.0
-</td>
-<td style="text-align:center;">
-3.6
-</td>
-<td style="text-align:center;">
-1.4
-</td>
-<td style="text-align:center;">
-0.2
-</td>
-<td style="text-align:center;">
-setosa
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-5.4
-</td>
-<td style="text-align:center;">
-3.9
-</td>
-<td style="text-align:center;">
-1.7
-</td>
-<td style="text-align:center;">
-0.4
-</td>
-<td style="text-align:center;">
-setosa
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-4.6
-</td>
-<td style="text-align:center;">
-3.4
-</td>
-<td style="text-align:center;">
-1.4
-</td>
-<td style="text-align:center;">
-0.3
-</td>
-<td style="text-align:center;">
-setosa
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-5.0
-</td>
-<td style="text-align:center;">
-3.4
-</td>
-<td style="text-align:center;">
-1.5
-</td>
-<td style="text-align:center;">
-0.2
-</td>
-<td style="text-align:center;">
-setosa
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-4.4
-</td>
-<td style="text-align:center;">
-2.9
-</td>
-<td style="text-align:center;">
-1.4
-</td>
-<td style="text-align:center;">
-0.2
-</td>
-<td style="text-align:center;">
-setosa
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-4.9
-</td>
-<td style="text-align:center;">
-3.1
-</td>
-<td style="text-align:center;">
-1.5
-</td>
-<td style="text-align:center;">
-0.1
-</td>
-<td style="text-align:center;">
-setosa
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-5.4
-</td>
-<td style="text-align:center;">
-3.7
-</td>
-<td style="text-align:center;">
-1.5
-</td>
-<td style="text-align:center;">
-0.2
-</td>
-<td style="text-align:center;">
-setosa
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-4.8
-</td>
-<td style="text-align:center;">
-3.4
-</td>
-<td style="text-align:center;">
-1.6
-</td>
-<td style="text-align:center;">
-0.2
-</td>
-<td style="text-align:center;">
-setosa
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-4.8
-</td>
-<td style="text-align:center;">
-3.0
-</td>
-<td style="text-align:center;">
-1.4
-</td>
-<td style="text-align:center;">
-0.1
-</td>
-<td style="text-align:center;">
-setosa
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-4.3
-</td>
-<td style="text-align:center;">
-3.0
-</td>
-<td style="text-align:center;">
-1.1
-</td>
-<td style="text-align:center;">
-0.1
-</td>
-<td style="text-align:center;">
-setosa
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-5.8
-</td>
-<td style="text-align:center;">
-4.0
-</td>
-<td style="text-align:center;">
-1.2
-</td>
-<td style="text-align:center;">
-0.2
-</td>
-<td style="text-align:center;">
-setosa
-</td>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">csv-1700-1830,csv-1831-2000,csv-2001-2131</td>
+<td align="left">Call Center and Blog information during time period from 1700 to 2131 on January 23,2014, with 5 variables – date, author, message, hotspot location, latitude and longitude</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div id="references" class="section level1 unnumbered">
-<h1>References</h1>
-<div id="refs" class="references">
-<div id="ref-R-posterdown">
-<p>Thorne, Brent. 2019. <em>Posterdown: Generate Pdf Conference Posters Using R Markdown</em>. <a href="https://github.com/brentthorne/posterdown">https://github.com/brentthorne/posterdown</a>.</p>
+<div id="dashboard-design" class="section level1">
+<h1>Dashboard Design</h1>
+<div id="exploratory" class="section level2">
+<h2>Exploratory</h2>
+<p><strong>Summary of datasets at glance</strong></p>
+<p><img src="image/exploratory.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>• Temporal Pattern: Temporal pattern distribution of the number of posts from various source such as microblog posts vs. call center messages, tweets vs. retweets given the specific time period.</p>
+<p>• Word Cloud based on frequency and cooccurrence rate: straightforward text analysis provides a overview of content being discussed and help to highlight past events that occurred from various sources</p>
 </div>
-<div id="ref-R-pagedown">
-<p>Xie, Yihui, Romain Lesur, Brent Thorne, and Xianying Tan. 2021. <em>Pagedown: Paginate the Html Output of R Markdown with Css for Print</em>. <a href="https://github.com/rstudio/pagedown">https://github.com/rstudio/pagedown</a>.</p>
+<div id="topic-modeling" class="section level2">
+<h2>Topic Modeling</h2>
+<p><strong>Customized parameters for LDA topic modeling</strong></p>
+<p><img src="image/topic1.png" width="70%" style="display: block; margin: auto;" /><img src="image/topic2.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>By selecting time range and LDA topic modeling parameters, the text modeling will perform dynamically in the backend. With the LDA results, users can futher explores top meaningful words in each topic, identify the peaks of key major events at certain point of time through topic trend distribution and profile users based on their posts contributions to the topics.</p>
+</div>
+<div id="network" class="section level2">
+<h2>Network</h2>
+<p><img src="image/network.png" width="80%" style="display: block; margin: auto;" /></p>
+<p>With this VisNetwork object, we visuliaze the retweets network and draw the histograms of right skewed centrality distribution graph indicating patterns of the information dissemination. A variety of insights would be derived through different centrality measurements. For instance, most popular and active users could be identified by in-degree and out-degree centrality. And most influential users can also be detected by closeness and eigenvector centrality.</p>
+</div>
+<div id="geospaitial" class="section level2">
+<h2>Geospaitial</h2>
+<p><img src="image/network.png" width="80%" style="display: block; margin: auto;" />
+To visually display the social media contents，we first plotted location-stamped text data from different resources on the leatlet map. Then we extracted hexagon binning map by using MMQGIS grid layer function in QGIS application.Subsequently, we identified the location-stamped posts intersection with the hexagon and counted the number of posts within each hexagon areas. By plotting the hexagon layer with color gradient over Aliba map, we then visualized the hexagon binning distribution map.</p>
 </div>
 </div>
+<div id="insights" class="section level1">
+<h1>Insights</h1>
+</div>
+<div id="conclusion-and-future-work" class="section level1">
+<h1>Conclusion and Future Work</h1>
+<p>In this work we presented an integrated visual analytics dashboard for public and government analysis of social media data. We applied multiple text mining and visualization techniques for social events response based on text content vitalization, network exploration and spatiotemporal analysis. For abnormal event response, we demonstrated a analyze flow to verify and examine the dashboard application. For future work, we will research and include more text mining techniques and provide more functional extension to the dashboard, and we hope to apply the concept of the framework design for more real-world text data analysis in response to time, entity relationship, and location.</p>
+</div>
+<div id="acknowledgement" class="section level1">
+<h1>Acknowledgement</h1>
+<p>The authors want to thank Prof Kam Tin Seong of Singapore Management University for his valuable advice and support on this project.</p>
 </div>
 
 </div>
 <div class="main">
-<p>Make <strong>better posters</strong> with RMarkdown + <strong>posterdown</strong>.</p>
+<p>Visual Dashboard for Real-Time Analysis of Social Media</p>
 </div>
 <div class="main_bottom">
-<img id="main-img-left" src=https://raw.githubusercontent.com/brentthorne/posterdown/master/images/betterhexlogo.png>
-<img id="main-img-center" src=https://raw.githubusercontent.com/brentthorne/posterdown/master/images/qr-code-black.png>
-<img id="main-img-right" src=https://raw.githubusercontent.com/brentthorne/posterdown/master/images/betterhexlogo.png>
+<img id="main-img-left" src=images/SMU_logo.jpg>
+<img id="main-img-center" src=>
+<img id="main-img-right" src=images/airbnb.jpg>
 </div>
 </div>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-(function () {
-var script = document.createElement("script");
-script.type = "text/javascript";
-var src = "true";
-if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-if (location.protocol !== "file:" && /^https?:/.test(src))
-src = src.replace(/^https?:/, '');
-script.src = src;
-document.getElementsByTagName("head")[0].appendChild(script);
-})();
-</script>
 
 
 </body>
