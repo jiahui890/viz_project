@@ -1,48 +1,71 @@
 ---
-main_topsize: 0.2 #percent coverage of the poster
-main_bottomsize: 0.1
+main_topsize: 0.09 #percent coverage of the poster
+main_bottomsize: 0.07
+poster_width: "23.39in"
+poster_height: "33.11in"
 #ESSENTIALS
-title: '**A Better Reproducible Poster Title**'
+#title: '**Visual Dashboard for Real-Time Analysis of Social Media**'
 author:
-  - name: '**W. Brent Thorne**'
+  - name: '**Huang Linya**'
+    email: linya.huang.2020@mitb.smu.edu.sg
+    main: true
     affil: 1
+  - name: '**Lim Jiahui**'
+    email: jiahui.lim.2020@mitb.smu.edu.sg
     main: true
-    orcid: '0000-0002-1099-3857'
-    twitter: brentthorne18 
-    email: bthorne2@brocku.ca
-  - name: Another G. Contributor
-    affil: 2
+    affil: 1 
+  - name: '**Zhang Ying**'
+    email: ying.zhang.2020@mitb.smu.edu.sg
     main: true
-    email: 'ag.con@posterdown.net'
-  - name: Person Three
-    affil: 3
-  - name: Person Four
-    affil: 2
-  - name: Person Five
-    affil: 3
-  - name: Person Six
-    affil: 3
-  - name: A. Seventh Author
-    affil: 2
+    affil: 1 
+    
 affiliation:
-  - num: 1
-    address: Department of Earth Science, Brock University
-  - num: 2
-    address: Department of Graphics and Layouts, University of Posters; Canada
-  - num: 3
-    address: Another Institute of a place where work gets done, Earth, Milky Way
+  - address: School of Computing and Information, Singapore Management University
+
 main_findings:
-  - "Make **better posters** with RMarkdown + **posterdown**."
-logoleft_name: https&#58;//raw.githubusercontent.com/brentthorne/posterdown/master/images/betterhexlogo.png
-logoright_name: https&#58;//raw.githubusercontent.com/brentthorne/posterdown/master/images/betterhexlogo.png
-logocenter_name: https&#58;//raw.githubusercontent.com/brentthorne/posterdown/master/images/qr-code-black.png
+  - "Visual Dashboard for Real-Time Analysis of Social Media"
+main_textsize: "80px"
+main_fontfamily: "Roboto"
+# colour
+primary_colour: '#1a17b3'
+secondary_colour: '#1a17b3'
+accent_colour: '#00A699'
+# title body
+logoleft_name: images/SMU_logo.jpg
+logoright_name: images/airbnb.jpg
+titlebox_bordercol:	"#0b4545"	#Colour of the title box border.
+titlebox_borderwidth:	"0cm"	#Width of the title box border.
+title_textcol: "#ffffff"
+title_textsize: "30pt"
+author_textcol: "#ffffff" 
+author_textsize: '20pt'
+authorextra_textsize: '15pt'
+affiliation_textsize: '15pt'
+# poster body
+body_textsize: "25px"
+caption_textsize: "20pt"
+body_textcol: "#000000" #colour
+column_margins: "0.1in"
+columnline_col:	"#008080"	#Colour of the column line dividers.
+columnline_width:	"1mm"	#Width of line between each column.
+columnline_style:	dashed	#Style of the column line seperator.
+sectitle_textcol:	"#ffffff"	#Colour of the poster section titles.
+sectitle_textsize:	"30t"	#Text size of the section titles (H1).
+sectitle2_textsize:	"25pt"	#Text size of the section titles (H2).
+sectitle_bgcol:	"#00A699"	#Colour of the section title box.
+sectitle_bordercol:	"#00A699"	#Colour of the border around the section title box.
+sectitle_borderwidth:	"2mm"	#Thicknes of the section title box border.
+sectitle_boxshape:	"4mm 0mm"	#Changes the shape of the section title box.
+sectitle2_textcol:	"#00A699"	#Color of 2nd level header text.
+link_col:	"#00A699"	#Colour of other links within the poster.
 output: 
   posterdown::posterdown_betterport:
     self_contained: false
     pandoc_args: --mathjax
+    highlight: haddock
     number_sections: false
-bibliography: packages.bib
 link-citations: true
+bibliography: packages.bib
 ---
 
 ```{r, include=FALSE}
@@ -55,73 +78,106 @@ knitr::opts_chunk$set(echo = FALSE,
 options(knitr.table.format = "html") 
 ```
 
+
 # Introduction
 
-This is the `posterdown_betterport` template for the {posterdown} package! I was inspired by the twitter thread of [Mike Morrison](https://mobile.twitter.com/mikemorrison/status/1110191245035479041) and wanted to apply the `#betterposter` concept to the reproducible (yet simple to use) functionality of the {posterdown} package [@R-posterdown]. If you're not an R user don't sweat as you do **NOT** need to use it at all! Feel free to use only the Markdown functionality of this package :)
+Detecting abnormal events, such as disaster or crisis, from microblog social media has become a trend, as social media has played a pervasive role in the way people behave and think. Nowadays, people are also using time-stamped, geo -located data to share live information about what’s happening in their surroundings, which enables the public, government and researchers to identify abnormal events in community more quickly and take immediate actions.
 
-```{r, include=FALSE}
-knitr::write_bib(c('posterdown', 'rmarkdown','pagedown'), 'packages.bib')
+To better analyzing and visualizing social media texts, several text analytics techniques can be applied, such as word cloud, topic modeling, network analysis, geospatial analysis and so on. In real-world practices, researchers have built various social media text visualization using different techniques, but their solutions lack an integrated way of working.  
+
+In order to build a comprehend visualization dashboard with an interactive user interface, we built the application based on R shiny - a web application framework to create interactive web applications - and text analytical R packages.  
+
+
+# Motivation
+
+Our research is motivated by the lack of integrated and comprehensive real-time social-media dashboard. We aim to apply appropriate text analytics method and visually driven data analysis techniques in R language and R shiny to provide a handy analytic tool to help users understand the social-media posting through social media post analytics approaches.
+
+# Approach
+
+```{r, echo=FALSE, out.width="80%", fig.align='center'}
+library(knitr)
+include_graphics("image/design.png")
+```
+```{r, echo=FALSE, out.width="80%", fig.align='center'}
+
+include_graphics("image/framework.png")
+```
+```{r, echo=FALSE, out.width="80%", fig.align='center'}
+
+include_graphics("image/tool.png")
 ```
 
-## Objectives
+# Datasets
 
-1. Pick a template layout.
-2. Write/ create your poster content distraction free.
-3. Let posterdown do its thing!
+VAST Challenge 2021 Mini-Challenge 3 poses a social media and text analysis challenge to detect the meaningful event reports, evaluate risk level, public influence and suggest team of first response based on location-stamped posts. It provides the collection of microblogs and emergency calls from the event day and geospatial map of the corresponding areas.
 
-# Methods
+|No| Dataset | Information  |
+|:-------|:-------------|:-------------|
+|1 |Aliba.shp|Aliba geospatial map file with geometry information.|
+|2 | csv-1700-1830,csv-1831-2000,csv-2001-2131 |Call Center and Blog information during time period from 1700 to 2131 on January 23,2014, with 5 variables – date, author, message, hotspot location, latitude and longitude |
 
-I will show here how to include poster elements that may be useful, such as an equation using mathjax:
 
-$$
-E = mc^2
-$$
 
-To reference a citation you can add your `.bib` file to the working directory and name it in the YAML metadata or generate an automated one as done here, then you only need to reference the label value in the `.bib` file. For example this package is built on top of the wonderful {pagedown} package and I will cite it at the end of this sentance using this in the rmd `[@R-pagedown]` [@R-pagedown].
+# Dashboard Design
 
-To get a better understanding of how to include features like these please refer to the {posterdown} [wiki](https://github.com/posterdown/wiki).
+## Exploratory 
 
-**_Now on to the results!_**
+**Summary of datasets at glance**
 
-# Results
+```{r, echo=FALSE, out.width="70%", fig.align='center'}
 
-Here you may have some figures to show off, bellow I have made a scatterplot with the infamous Iris dataset and I can even reference to the figure automatically like this, `Figure \@ref(fig:irisfigure)`, Figure \@ref(fig:irisfigure).
-
-```{r, irisfigure, fig.cap='Here is a caption for the figure. This can be added by using the "fig.cap" option in the r code chunk options, see this [link](https://yihui.name/knitr/options/#plots) from the legend himself, [Yihui Xie](https://twitter.com/xieyihui).', out.width="80%"}
-par(mar=c(2,2,0,1))
-plot(x = iris$Sepal.Length, y = iris$Sepal.Width,
-     col = iris$Species, pch = 19, xlab = "Sepal Length",
-     ylab = "Sepal Width")
+include_graphics("image/exploratory.png")
 ```
 
-Maybe you want to show off some of that fancy code you spent so much time on to make that figure, well you can do that too! Just use the `echo=TRUE` option in the r code chunk options, Figure \@ref(fig:myprettycode)!
+• Temporal Pattern: Temporal pattern distribution of the number of posts from various source such as microblog posts vs. call center messages, tweets vs. retweets given the specific time period.
 
-```{r myprettycode, echo=TRUE, fig.cap='Boxplots, so hot right now!', fig.height=6, out.width="80%"}
-#trim whitespace
-par(mar=c(2,2,0,0))
-#plot boxplots
-boxplot(iris$Sepal.Width~iris$Species,
-        col = "#008080", 
-        border = "#0b4545",
-        ylab = "Sepal Width (cm)",
-        xlab = "Species")
+• Word Cloud based on frequency and cooccurrence rate: straightforward text analysis provides a overview of content being discussed and help to highlight past events that occurred from various sources
+
+
+
+## Topic Modeling
+
+**Customized parameters for LDA topic modeling**
+
+```{r, echo=FALSE, out.width="70%", fig.align='center'}
+
+include_graphics("image/topic1.png")
+include_graphics("image/topic2.png")
 ```
 
-How about a neat table of data? See, Table \@ref(tab:iristable):
+By selecting time range and LDA topic modeling parameters, the text modeling will perform dynamically in the backend. With the LDA results, users can futher explores top meaningful words in each topic, identify the peaks of key major events at certain point of time through topic trend distribution and profile users based on their posts contributions to the topics.
 
-```{r, iristable}
-knitr::kable(
-  iris[1:15,1:5], format = "html",
-  caption = "A table made with the **knitr::kable** function.",
-  align = "c", col.names = c("Sepal <br> Length",
-                             "Sepal <br> Width",
-                             "Petal <br> Length",
-                             "Petal <br> Width",
-                             "Species"),
-  escape = FALSE)
+
+## Network
+
+```{r, echo=FALSE, out.width="80%", fig.align='center'}
+
+include_graphics("image/network.png")
+
 ```
 
-# References
+With this VisNetwork object, we visuliaze the retweets network and draw the histograms of right skewed centrality distribution graph indicating patterns of the information dissemination. A variety of insights would be derived through different centrality measurements. For instance, most popular and active users could be identified by in-degree and out-degree centrality. And most influential users can also be detected by closeness and eigenvector centrality.  
+
+## Geospaitial
+
+```{r, echo=FALSE, out.width="80%", fig.align='center'}
+
+include_graphics("image/network.png")
+
+```
+To visually display the social media contents，we first plotted location-stamped text data from different resources on the leatlet map. Then we extracted hexagon binning map by using MMQGIS grid layer function in QGIS application.Subsequently, we identified the location-stamped posts intersection with the hexagon and counted the number of posts within each hexagon areas. By plotting the hexagon layer with color gradient over Aliba map, we then visualized the hexagon binning distribution map. 
+
+# Insights 
+
+
+
+# Conclusion and Future Work
+
+In this work we presented an integrated visual analytics dashboard for public and government analysis of social media data. We applied multiple text mining and visualization techniques for social events response based on text content vitalization, network exploration and spatiotemporal analysis. For abnormal event response, we demonstrated a analyze flow to verify and examine the dashboard application. For future work, we will research and include more text mining techniques and provide more functional extension to the dashboard, and we hope to apply the concept of the framework design for more real-world text data analysis in response to time, entity relationship, and location. 
+
+# Acknowledgement 
+
+The authors want to thank Prof Kam Tin Seong of Singapore Management University for his valuable advice and support on this project.
 
 
 ```{r echo=FALSE, eval=FALSE}
