@@ -166,6 +166,14 @@ ui <- fluidPage(
 
         
         mainPanel(
+          h4("Hover and click onto the map for more details."),
+          br(),
+          strong("CC and MB data:"),
+          p("Plot shows the various geolocation for microblogs and call-center messages filtered by time and type."),
+          br(),
+          strong("Hexagon Plot:"),
+          p("Shows the hotspots (by frequency of messages)"),
+          br(),
           tabsetPanel(
             tabPanel("CC and MB Data", tmapOutput("plot1")), 
             tabPanel("Hexagon Plot", tmapOutput("plot2"))
@@ -199,7 +207,8 @@ server <- function(input, output) {
     model$plot1 <- tm_shape(Abila_st) +
       tm_lines() +
       tm_shape(merged_final2) +
-      tm_dots(col = "type", palette = c(cc='red',mb='blue'), popup.vars = TRUE) +
+      tm_dots(col = "type", palette = c(cc='red',mb='blue'), 
+              popup.vars = c("timestamp","type","author","message")) +
       tm_layout(title= 'Geo-locations cc and mb')
     
     
@@ -222,8 +231,7 @@ server <- function(input, output) {
       tm_shape(Abila_st) +
       tm_lines() +
       tm_shape(intersection) +
-      tm_polygons(col='count') +
-      tm_layout(title= 'Hexagon Shaded by Count')
+      tm_polygons(col='count')
     
     
     
