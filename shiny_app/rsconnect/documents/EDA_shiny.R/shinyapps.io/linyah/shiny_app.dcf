@@ -1,0 +1,14 @@
+name: shiny_app
+title: shiny_app
+username:
+account: linyah
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4492090
+bundleId: 4922456
+url: https://linyah.shinyapps.io/shiny_app/
+when: 1628927286.67071
+lastSyncTime: 1628927286.67071
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .RData|app.R|co-plot.R|EDA_data_clean.R|Layout.R|network_shiny.R|network_shiny_v2.R|packages.bib|R/loadData.R|Topic Modeling.R|user_engagement.R|data|linya

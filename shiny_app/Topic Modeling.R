@@ -1,3 +1,5 @@
+
+
 library(shiny)
 library(topicmodels)
 library(DT)
@@ -57,7 +59,6 @@ ui <- fluidPage(
 
 
 server <- function(input, output) {
-  
   model <- reactiveValues(Data=NULL)
   
   observeEvent(input$do, {
@@ -65,7 +66,7 @@ server <- function(input, output) {
     mbdata <- data %>% mutate(timestamp=ymd_hms(data$timestamp),time_1min=ymd_hms(data$time_1min)) %>% 
       filter(timestamp>=ymd_hms(input$timeRange[1])+ hours(8) & timestamp<=ymd_hms(input$timeRange[2])+ hours(8))%>% 
       filter(type=='mbdata')
-
+    
     mbdata$id<-seq.int(nrow(mbdata))
     
     wordcorpus <- Corpus(VectorSource(as.character(mbdata$cleaned)))  
@@ -82,7 +83,7 @@ server <- function(input, output) {
     
     topic=LDA(dtm.new,k=input$k,method="Gibbs",conrol=list(seed=2021,alpha=input$alpha,iter=input$iter))
     
-
+    
     ap_topics <- tidy(topic, matrix = "beta")
     
     
@@ -133,11 +134,11 @@ server <- function(input, output) {
     #         axis.text.x=element_blank(),
     #         axis.ticks.x=element_blank())+
     #   ggtitle("LDA Topics Trend of Selected Time Period")
-
+    
     
     
   },ignoreNULL = F);
-
+  
   
   
   
@@ -149,43 +150,45 @@ server <- function(input, output) {
     model$plot2
   });
   
- 
+  
   output$plot3<-renderPlot({
-
+    
     validate(
       #need(input$topicn!="", 'Please input valid topic number'),
       need(str_detect(input$topicn,"[0-9]+((,[0-9]+)+)?"), 'Please input valid number')
     )
-
+    
     topic_data<-model$data
     topic1<-topic_data %>% group_by(topic,author) %>% summarise(topics_count=n()) %>% ungroup()
     topic2<-topic_data %>% group_by(author) %>% summarise(total_count=n())%>% ungroup()
     topic3<-left_join(topic1,topic2,by=c("author"="author"))
     topic3$User_Topic_Ratio<-topic3$topics_count/topic3$total_count
-
+    
     selected_topic<-as.integer(str_split(input$topicn,",")[[1]])
     topic4<-topic3 %>% filter(topic %in% selected_topic)
-
+    
     ggplot(topic4,aes(x=topic,y=author,color=factor(topic),size=User_Topic_Ratio))+
       geom_point(alpha=0.5)+
       theme(legend.position="bottom")+
       scale_x_discrete()+
       ggtitle("User Engagement %")
-
+    
   },height = 1600, width = 300);
   
   output$table<-DT::renderDataTable({
     
     selected_topic<-as.integer(str_split(input$topicn,",")[[1]])
-
-
+    
+    
     topic5<-subset(model$data,select = c(timestamp,author,message,topic)) %>%
       filter(topic %in% selected_topic)
-
-
+    
+    
     datatable(data =topic5)
-
-});
+    
+  });
+  
+   
   
 }
 

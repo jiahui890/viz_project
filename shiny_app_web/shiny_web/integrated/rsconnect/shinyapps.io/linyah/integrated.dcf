@@ -1,0 +1,13 @@
+name: integrated
+title: integrated
+username:
+account: linyah
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4492156
+bundleId: 4922822
+url: https://linyah.shinyapps.io/integrated/
+when: 1628936606.83078
+lastSyncTime: 1628936606.83078
+asMultiple: FALSE
+asStatic: FALSE
