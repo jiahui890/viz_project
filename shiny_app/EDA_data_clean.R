@@ -406,6 +406,7 @@ V(RT_graph)$size<-centr_eigen(RT_graph)$vector
 
 
 nodes <- get.data.frame(RT_graph, what="vertices") 
+nodes$title<-paste(nodes$id, "<br> Value <br>",nodes$size)
 
 
 visNetwork(nodes, RT_edges_agg, height = "500px", width = "100%") %>%
@@ -417,11 +418,31 @@ visNetwork(nodes, RT_edges_agg, height = "500px", width = "100%") %>%
 #Degree distribution
 #plotly
 library(plotly)
-plot_ly(nodes,x=~indegree,type="histogram")
+plot_ly(nodes,x=~size,type="histogram")
 #ggplpt
 ggplot(nodes, aes(x=size)) + 
   geom_histogram() +
   theme_minimal()
+
+
+ggplotly(
+  ggplot_build(
+    ggplot(nodes, aes(x=size)) + 
+      geom_histogram() +
+      theme_minimal())$data[[1]] %>% 
+    ggplot(aes(x=factor(x), y = count, text = paste0("range: ",round(xmin, 1), " - ", round(xmax,1)))) + 
+    geom_bar(stat="identity") + 
+    theme(panel.border = element_blank(), 
+          panel.background = element_blank(),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(), 
+          axis.line = element_line(colour = "black"),
+          axis.text.x = element_blank(),
+          axis.ticks.x = element_blank()),
+  tooltip = c("text"))
+
+
+
 
 #to improve
 #to add network knowledge theory below the selection panel
