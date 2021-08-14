@@ -1,3 +1,4 @@
+
 library(shiny)
 library(mapview)
 library(tmap)
@@ -11,17 +12,10 @@ library(tidyverse)
 ###########################################################################
 
 # import data
-csv1 <- read_csv('data/csv-1700-1830.csv')
-csv2 <- read_csv('data/csv-1831-2000.csv')
-csv3 <- read_csv('data/csv-2001-2131.csv')
-data <- rbind(csv1, csv2, csv3)
+data <- read_csv('data/data.csv')
 
 # reading shape files
 Abila <- st_read(dsn = "data/Geospatial", layer = "Abila")
-
-# changing date format
-data$datetime <- ymd_hms(data$`date(yyyyMMddHHmmss)`)
-data$time <- format(as.POSIXct(data$datetime), format = "%H:%M:%S")
 
 # separating cc and mb data
 cc <- data %>% filter(type=="ccdata")
@@ -29,7 +23,7 @@ mb <- data %>% filter(type=="mbdata")
 
 # filtering 
 mb2 <- mb %>% filter(!is.na(longitude))
-cc2 <- cc %>% mutate(id = 1:nrow(cc)) %>% filter(location!="N/A")
+cc2 <- cc %>% filter(location!="N/A")
 
 p = npts(Abila, by_feature = TRUE)
 Abila_st <- cbind(Abila, p) %>%
@@ -40,15 +34,10 @@ mb_geo<-st_as_sf(mb2,
                  coords = c("longitude","latitude"),
                  crs= 4326)
 
-mb_geo2<-subset(mb_geo,select = c(datetime,author,message,geometry))
+mb_geo<-mb_geo %>% mutate_if(is.character, ~gsub('[^ -~]', '', .)) 
+mb_geo <- subset(mb_geo, select = -c(location))
 
-# remove characters non UTF-8
-mb_geo2<-mb_geo2%>% mutate_if(is.character, ~gsub('[^ -~]', '', .)) 
-
-mb_geo2$type<-"mb"
-
-
-# ccdata 
+# === plotting ccdata ===
 
 # only the addresses without junctions or separators "/"
 cc_streets <- cc2 %>% 
@@ -73,21 +62,18 @@ Abila_st3 <- Abila_st %>%
   unite(str_add, c(add, FETYPE), sep = " ") 
 
 
-
 # matching them both
 match_points <- Abila_st2 %>%
   inner_join(cc_streets, by = c("num" = "number_rd", 
                                 "str_add" = "street"))
 
 # for plotting
-cc_geo1 <- match_points %>%
-  select(datetime, message, geometry) %>%
-  mutate(type = "cc")
+cc_geo <- match_points %>%
+  select(id,type,timestamp,author,message,geometry)
 
 
 # merging them together
-merged <- dplyr::bind_rows(cc_geo1,mb_geo2)
-
+merged <- dplyr::bind_rows(cc_geo,mb_geo)
 
 
 # getting cross junctions out
@@ -98,11 +84,9 @@ cross_junc <- cc2 %>%
   unnest(street)
 
 #removed id=26 and 108 for now as street is "N. Parla St from Egeou Ave North to N. Alm St" and "ALL UNITS"
-remove_id <- c(26,108)
+remove_id <- c(419,1945)
 cross_junc2 <- cross_junc[!cross_junc$id %in% remove_id,]
 
-
-#cross_junc2$geometry <- "-"
 cross_junc_df <- as.data.frame(matrix(ncol=2, nrow=0))
 idx <- unique(cross_junc2$id)
 for (i in 1:length(idx)){
@@ -121,36 +105,41 @@ for (i in 1:length(idx)){
   if(skip_to_next){next}
 }
 
-
 # renaming
 names(cross_junc_df)[1]<-"id"
 names(cross_junc_df)[2]<-"geometry"
 
 
-cross_junc_df2 <- cross_junc_df
-cross_junc_df2$datetime <- as.POSIXct("2014-01-23 17:00:00 UTC")
-cross_junc_df2$message <- "-"
-for (j in 1:nrow(cross_junc_df2)){
+cross_junc_df$timestamp <- as.POSIXct("2014-01-23 17:00:00 UTC")
+cross_junc_df$message <- "-"
+for (j in 1:nrow(cross_junc_df)){
   for (i in 1:nrow(cross_junc2)){
     if(cross_junc_df$id[j] == cross_junc2$id[i]){
-      cross_junc_df2$datetime[j]<-cross_junc2$datetime[i]
-      cross_junc_df2$message[j]<-cross_junc2$message[i]
+      cross_junc_df$timestamp[j]<-cross_junc2$timestamp[i]
+      cross_junc_df$message[j]<-cross_junc2$message[i]
     }
   }
 }
 
 # minus 8 hours due to R studio set timing
-cross_junc_df2$datetime <- cross_junc_df2$datetime - hours(8)
+cross_junc_df$timestamp<- cross_junc_df$timestamp - hours(8)
 
-#filter out NULL and NA
-cross_junc_df2 <- cross_junc_df2 %>% filter(!geometry %in% c("NULL","NA"))
-cross_junc_df2$type <- "cc"
-cross_junc_df2 <- cross_junc_df2[,c("datetime","message","geometry","type")]
-cross_junc_df2 <- st_as_sf(cross_junc_df2)
+cross_junc_df <- cross_junc_df %>% filter(!geometry %in% c("NULL","NA"))
+cross_junc_df$type <- "ccdata"
+cross_junc_df <- st_as_sf(cross_junc_df)
+
+# fixing timestamp issues
+merged_final <- dplyr::bind_rows(merged,cross_junc_df)
+for (i in 1:nrow(merged_final)){
+  if(hour(merged_final$timestamp[i]) < 17){
+    merged_final$timestamp[i] <- merged_final$timestamp[i] + hours(8)
+  }
+}
 
 
-# merging them together
-merged <- dplyr::bind_rows(merged,cross_junc_df2)
+# ======== Hexagon ==========
+Abila_hex <- st_read(dsn = paste0(working_dir,"geo2"), layer = "hex_final")
+
 
 
 #############################################################################
@@ -170,6 +159,8 @@ ui <- fluidPage(
                                  as.POSIXct("2014-01-23 17:00:00"),
                                  as.POSIXct("2014-01-23 21:35:00")
                   )),
+                  selectInput("var1", "Select Data Type:",
+                              c("All","Call-Center","Microblog")),
                   actionButton("do", strong("Apply Change"))
                   ),
 
@@ -177,7 +168,7 @@ ui <- fluidPage(
         mainPanel(
           tabsetPanel(
             tabPanel("CC and MB Data", tmapOutput("plot1")), 
-            tabPanel("Hexagon Plot", plotOutput("plot2"))
+            tabPanel("Hexagon Plot", tmapOutput("plot2"))
         )
     )
 ))
@@ -185,25 +176,54 @@ ui <- fluidPage(
 
 server <- function(input, output) {
 
-  # data configuration
-  
   model <<- reactiveValues(Data=NULL)
   
   observeEvent(input$do, {
     
-    merged2 <- merged %>% 
-      filter(datetime>=ymd_hms(input$timeRange[1])+ hours(8) & datetime<=ymd_hms(input$timeRange[2])+ hours(8))
+    merged_final2 <- merged_final %>% 
+      filter(timestamp>=ymd_hms(input$timeRange[1])+ hours(8) & timestamp<=ymd_hms(input$timeRange[2])+ hours(8))
+    
+    if(input$var1=="Call-Center"){
+      merged_final2<-merged_final2 %>% filter(type=="ccdata")
+    } else if (input$var1=="Microblog"){
+      merged_final2<-merged_final2 %>% filter(type=="mbdata")
+    } else {
+      merged_final2<-merged_final2
+    }
+  
     
     # === plot ====
     
     tmap_mode("view")
+    
     model$plot1 <- tm_shape(Abila_st) +
       tm_lines() +
-      tm_shape(merged2) +
+      tm_shape(merged_final2) +
       tm_dots(col = "type", palette = c(cc='red',mb='blue'), popup.vars = TRUE) +
       tm_layout(title= 'Geo-locations cc and mb')
     
     
+    # Hexagon
+    
+    intersection<-st_set_geometry(st_intersection(merged_final2,Abila_hex), NULL)
+    intersection<-left_join(intersection,Abila_hex,by=c('left','bottom','right','top'))
+    
+    #count number of posts in each polygon
+    intersection<-intersection %>% group_by(left,bottom,right,top) %>% 
+      mutate(count = n())
+    
+    intersection<-st_as_sf(intersection)
+    
+    
+    # === plot ===
+  
+    model$plot2 <- tm_shape(Abila_hex) +
+      tm_polygons() +
+      tm_shape(Abila_st) +
+      tm_lines() +
+      tm_shape(intersection) +
+      tm_polygons(col='count') +
+      tm_layout(title= 'Hexagon Shaded by Count')
     
     
     
@@ -215,6 +235,9 @@ server <- function(input, output) {
     model$plot1
   });
   
+  output$plot2 <- renderTmap({
+    model$plot2
+  });
 
 }
 
