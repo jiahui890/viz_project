@@ -1,7 +1,7 @@
 ---
-title: "My Website"
+title: "Visual Dashboard for Real-Time Analysis of Social Media"
 description: |
-  Welcome to the website. I hope you enjoy it!
+  Welcome to the website. We hope you enjoy our project.
 site: distill::distill_website
 ---
 
@@ -13,3 +13,8 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ```
 
+<center>
+
+![fig](images/social_media.jpg){width=70%}\
+
+</center>

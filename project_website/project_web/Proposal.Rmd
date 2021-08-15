@@ -2,10 +2,10 @@
 title: "Visual Dashboard for Real-Time Analysis of Social Media"
 description: |
   Our proposed steps and approach to tackle the text analytics of real-time social media based on data from Vast Challenge 2021 mini-challenges3.
-author:
-  - name: Jiahui Lim, Linya Huang, Ying Zhang 
-    affiliation: School of Computing and Information, Singapore Management University
-date: 08-15-2021
+# author:
+#   - name: Jiahui Lim, Linya Huang, Ying Zhang 
+#     affiliation: School of Computing and Information, Singapore Management University
+# date: 08-15-2021
 output:
   distill::distill_article:
     toc: true

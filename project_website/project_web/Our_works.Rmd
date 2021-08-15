@@ -2,12 +2,6 @@
 title: "Our Works"
 description: |
   Explore more about our deliverables - shiny application, shiny user guide, research paper and poster.
-author:
-  - name: Nora Jones 
-    url: https://example.com/norajones
-    affiliation: Spacely Sprockets
-    affiliation_url: https://example.com/spacelysprokets
-date: "`r Sys.Date()`"
 output: distill::distill_article
 ---
 
@@ -15,19 +9,25 @@ output: distill::distill_article
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-# Research Paper
+### [Research Paper]()
 
-# [Published Shiny Application](https://linyah.shinyapps.io/integrated/)
+Visual analytics application practice and research of social media streaming data.
+
+### [Published Shiny Application](https://linyah.shinyapps.io/integrated/)
 
 An integrated and dynamic dashboard for social-media visualization analysis.
 
-# [Shiny User Guide](images/ShinyApp_UserGuide.pdf)
+### [Shiny User Guide](images/ShinyApp_UserGuide.pdf)
 
 To optimize application user experience, please refer to user guide.
 
-# Poster
+### [Poster]()
 
 A visual poster of the application that provides an overview of our motivations, approaches and analytics results.
+
+### [Github](https://github.com/jiahui890/viz_project)
+
+All works uploaded to Github repository.
 
 
 

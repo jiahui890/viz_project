@@ -31,8 +31,7 @@ primary_colour: '#1a17b3'
 secondary_colour: '#1a17b3'
 accent_colour: '#00A699'
 # title body
-logoleft_name: images/SMU_logo.jpg
-logoright_name: images/airbnb.jpg
+logoleft_name: image/smu.png
 titlebox_bordercol:	"#0b4545"	#Colour of the title box border.
 titlebox_borderwidth:	"0cm"	#Width of the title box border.
 title_textcol: "#ffffff"
@@ -162,6 +161,10 @@ With this VisNetwork object, we visuliaze the retweets network and draw the hist
 
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
 
+<<<<<<< HEAD
+include_graphics("image/geo1.png")
+include_graphics("image/geo2.png")
+=======
 include_graphics("image/geospatial.png")
 
 ```
@@ -171,6 +174,7 @@ To visually display the social media contents，we first plotted location-stampe
 
 include_graphics("image/hexagon.png")
 
+>>>>>>> 6783a5e0db4cfefa4951cd8c673f378de129e363
 ```
 
 # Insights 
