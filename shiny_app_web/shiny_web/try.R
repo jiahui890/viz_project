@@ -1,28 +1,42 @@
 #<-read.csv("integrated/cleaned_data/data.csv")
-
+library(shiny)
+library(plotly)
+library(tmap)
+library(visNetwork)
 ui <- fluidPage(
   theme = bslib::bs_theme(),
   navbarPage(
     "Visual Dashboard for Real-Time Analysis of Social Media",
     tabPanel("Introduction", 
+             
              h3("Introduction"),
              br(),
              p("Social media has played a pervasive role in the way people behave and think.
-             Nowadays, people are also using time-stamped, geo -located data to share live information 
+             Nowadays, people are using time-stamped, geo-located data to share live information 
                about what’s happening in their surroundings, which enables the public, 
                government and researchers to identify abnormal events in community more quickly and take immediate actions."),
-             p("In this dashboard, We applied text analytics methods and visually driven data analysis techniques 
+             p("In this dashboard, we applied text analytics methods and visually driven data analysis techniques 
                in R language and R shiny and provided an interactive and integrated dashboard for streaming online
-               social-media analysis. "),
-             fluidRow(column(6,  h3("Design Concept"),
-                             img(src="design.png",height = 230, width = 550)
+               social-media analysis based on ",a("VAST 2021 Mini-Challenge 3.", href="https://vast-challenge.github.io/2021/MC3.html"),),
+             
+             fluidRow(column(6,  h3("Design Concept"),br(),
+                             img(src="design.png",height = 200, width = 550)
                              ),
-                      column(6,  h3("Related Links"),
-                             h5("Project Website", a("Link", href="https://isss608.netlify.app/lesson")),
-                             h5("User Guide", a("Link", href="https://isss608.netlify.app/lesson")),
+                      column(3,  h3("Related Links"),br(),
+                             h5("Project Website", a("Link", href="https://visual-shiny-g1-g9.netlify.app/")),
+                             p("Visit project website and explore more. "),
+                             h5("User Guide", a("Link", href="https://visual-shiny-g1-g9.netlify.app/images/ShinyApp_UserGuide.pdf")),
+                             p("Read the guide to optimize user experience."),
                              h5("Github", a("Link", href="https://github.com/jiahui890/viz_project")),
-                             
-                      )
+                             p("Github repository for all work.")
+                    
+                      ),
+                      column(3,h3("Author"),
+                             br(),
+                             strong("Huang Linya, Lim Jiahui, Zhang Ying"),
+                             br(),
+                             br(),
+                             strong("Singapore Management University"))
                       )
             
              ),
