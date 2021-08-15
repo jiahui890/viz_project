@@ -20,12 +20,15 @@ Project Organization
     │   ├── data           <- Data from third party sources.
     │       └── Geospatial <- Shapefile
     │       └── csv        <- All dataset in csv files
-    │   ├── R              <- R script for modules used in app.R
+    │   ├── /folders       <- respective folders, R scripts and modules used in app.R
     │   └── app            <- R script for Shiny App
     │
     │
     ├── research_paper     <- Rmarkdown and knitted-pdf by 'rticles' package
     │
+    ├── shiny_web          <- integrated app.R for shinyapps.io
+    │
+    ├── project_web        <- compiled project details in distill article format
     │
     ├── shiny_userguide    <- General user guide for navigation of Shiny App
     │
