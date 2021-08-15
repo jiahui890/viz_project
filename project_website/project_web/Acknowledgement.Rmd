@@ -1,0 +1,17 @@
+---
+title: "Acknowledgement"
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+This project is guided by Prof. Kam Tin Seong from Singapore Management University, and the authors want to thank him for valuable advice and support.
+
+
+
+
+
