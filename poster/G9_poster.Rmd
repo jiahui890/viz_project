@@ -20,7 +20,7 @@ author:
     affil: 1 
     
 affiliation:
-  - address: School of Computing and Information, Singapore Management University
+  - address: School of Computing and Information Systems, Singapore Management University
 
 main_findings:
   - "Visual Dashboard for Real-Time Analysis of Social Media"
@@ -159,20 +159,32 @@ With this VisNetwork object, we visuliaze the retweets network and draw the hist
 
 ## Geospaitial
 
-```{r, echo=FALSE, out.width="80%", fig.align='center'}
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
 
+<<<<<<< HEAD
 include_graphics("image/geo1.png")
 include_graphics("image/geo2.png")
+=======
+include_graphics("image/geospatial.png")
+
 ```
-To visually display the social media contents，we first plotted location-stamped text data from different resources on the leatlet map. Then we extracted hexagon binning map by using MMQGIS grid layer function in QGIS application.Subsequently, we identified the location-stamped posts intersection with the hexagon and counted the number of posts within each hexagon areas. By plotting the hexagon layer with color gradient over Aliba map, we then visualized the hexagon binning distribution map. 
+To visually display the social media contents，we first plotted location-stamped text and call data on the leaflet map (via extraction and st_intersection of cross junctions). Then, we extracted hexagon binning map by using MMQGIS grid layer function in QGIS application.Subsequently, we identified the location-stamped posts intersection with the hexagon and counted the number of posts within each hexagon areas. By plotting the hexagon layer with color gradient over Aliba map, we then visualized the hexagon binning distribution map. 
+
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+
+include_graphics("image/hexagon.png")
+
+>>>>>>> 6783a5e0db4cfefa4951cd8c673f378de129e363
+```
 
 # Insights 
 
 
 
+
 # Conclusion and Future Work
 
-In this work we presented an integrated visual analytics dashboard for public and government analysis of social media data. We applied multiple text mining and visualization techniques for social events response based on text content vitalization, network exploration and spatiotemporal analysis. For abnormal event response, we demonstrated a analyze flow to verify and examine the dashboard application. For future work, we will research and include more text mining techniques and provide more functional extension to the dashboard, and we hope to apply the concept of the framework design for more real-world text data analysis in response to time, entity relationship, and location. 
+In this work we presented an integrated visual analytics dashboard for public and government analysis of social media data. We applied multiple text mining and visualization techniques for social events response based on text content vitalization, network exploration and spatio-temporal analysis. For abnormal event response, we demonstrated a analyze flow to verify and examine the dashboard application. For future work, we will research and include more text mining techniques and provide more functional extension to the dashboard, and we hope to apply the concept of the framework design for more real-world text data analysis in response to time, entity relationship, and location. 
 
 # Acknowledgement 
 
