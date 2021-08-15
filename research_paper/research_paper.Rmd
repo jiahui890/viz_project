@@ -9,19 +9,18 @@ author:
     affiliation: Singapore Management University
   - name: Zhang Ying
     email: ying.zhang.2020@smu.edu.sg
-    affiliation: Singapore Management University   
+    affiliation: Singapore Management University
+  
+header-includes:
+   - \usepackage{float}   
 abstract: |
-  This is the abstract.
-
-  It consists of two paragraphs.
+  Real-time social media analysis has became popular in the current days, as the topics and sentiment generated will be able to provide meaningful insights on the current subject or event occurring. The form of time-stamped and location-stamped data provides important information, especially when capturing a serious incident. As text data are everywhere, text mining tools such as stopwords and punctuations removal became essential to ensure the words retrieve holds certain meaning. Topic modeling, sentiment lexicons and classification are further steps that can be taken to generate stories from these words itself.
+  
+  With the presence of time and location tags, government agencies and emergency dispatches can make use of this information (together with words) to make sense of the elevating situation in times of crisis. The location of calls received by call centers can also be mapped out to the first tweeted location, hence measuring the response time and better evaluate the risk level occuring. In this paper, we will be focusing on using a fictional dataset, whereby the historical data of microblogs and call centers will be analysed via text mining tools to determine top events occuring within a fixed time period, as well as mapping out the relationships between microblog users and how the location stamps play a part in evaluating the response time for emergency dispatches.
 bibliography: sigproc.bib
 csl: acm-sig-proceedings.csl
 output: rticles::acm_article
 ---
-```{r, include=FALSE}
-options(tinytex.verbose = TRUE)
-```
-
 
 # Introduction 
 
@@ -58,10 +57,15 @@ For spatiotemporal microblog visualization, some research has focused on visuali
 
 VAST Mini-Challenge 3 poses a social media and text analysis challenge to detect the meaningful event reports, evaluate risk level, public influence and suggest team of first response based on location-stamped posts. It provides the collection of microblogs and emergency calls from the event day and geospatial map of the corresponding areas, details as below:
 
-```{r, echo=FALSE, out.width="80%", fig.align='center', fig.cap="Table on details of dataset"}
 
-knitr::include_graphics("images/table.png")
+```{=latex}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{images/table.png}
+  \caption{Table on details of dataset}
+\end{figure}
 ```
+
 
 # Analytical Methods
 
@@ -92,7 +96,7 @@ The plots are governed by time slider to show how the “hotspots” and message
 # User Interface and Application Design
 
 
-
+Sample
 
 
 
@@ -104,38 +108,89 @@ The Shiny Dashboard was designed to incorporate interactivity and usability with
 
 ### EDA
 
-```{r, echo=FALSE, out.width="80%", fig.align='center', fig.cap="Overall trend of Microblogs and Call-Center messages across time"}
-
-knitr::include_graphics("images/msg_trend.png")
+```{=latex}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{images/msg_trend.png}
+  \caption{Overall trend of Microblogs and Call-Center messages across time}
+\end{figure}
 ```
 
 From initial exploratory analysis, we observe from the spikes that the frequency of microblogs and calls received are in synced. The number of retweets and tweets also corresponds to each other, most likely by people affected during that period of time. 
 
-The top trending hashtags observed are “#POKRally” and “#KronosStar”, while “#DancingDolphinFire” and “#standoff” interestingly appears towards the end of the timeline. A deeper analysis of tagged user shows that top users such as “@centralbulletin” and “@newsonlinetoday”, which denotes the official accounts of Abila media outlets that are frequently tagged or retweeted by public.
+The top trending hashtags observed are “#POKRally” and “#KronosStar”, while “#DancingDolphinFire” and “#standoff” interestingly appears towards the end of the timeline. A deeper analysis of tagged user shows that top users such as “@ centralbulletin” and “@ newsonlinetoday”, which denotes the official accounts of Abila media outlets that are frequently tagged or retweeted by public.
 
 ### Topic Modeling
 
-```{r, echo=FALSE, out.width="80%", fig.align='center', fig.cap="Topic Modeling analysis with Time"}
 
-knitr::include_graphics("images/topic1.png")
-
-knitr::include_graphics("images/topic2.png")
-
-knitr::include_graphics("images/topic3.png")
-
+```{=latex}
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{images/topic1.png}
+  \caption{Topic Modeling Analysis with Time (1st Topic)}
+\end{figure}
 ```
+
+```{=latex}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{images/topic2.png}
+  \caption{Topic Modeling Analysis with Time (2nd Topic)}
+\end{figure}
+```
+
+```{=latex}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{images/topic3.png}
+  \caption{Topic Modeling Analysis with Time (3rd Topic)}
+\end{figure}
+```
+
 
 Topic Modeling using microblog data and with 10 topics of interest across the entire evening shows that the main events occurred were:
 
--	Fire at Dancing Dolphin building (from 6:40pm to about 8pm)
--	Black Van incident and Shooting Standoff at gelato galore (from 7:40pm onwards)
--	POK Rally event (from 5pm to 6pm, but tweets about it last the entire evening)
+1)  Fire at Dancing Dolphin building (from 6:40pm to about 8pm)
+2)	Black Van incident and Shooting Standoff at gelato galore (from 7:40pm onwards)
+3)	POK Rally event (from 5pm to 6pm, but tweets about it last the entire evening)
 
 A brief approximation of the starting time for these events are denoted with spikes in time-series analysis.
 
+
 ## Network Analysis
 
+We can tell from the distribution graph that the in-degree centrality distribution is right-skewed. There are a small group of popular users in this network. The top 5 users which are being retweeted a lot by other users are AbilaPost(40), KronosStar (39), HomelandIlluminations(39), CentralBulletin (33), and InternationalNews(28). All of them are news media and it shows that people tend to quote information from news media rather than individual tweet users. However, we still have some non-media popular tweet users like megaMan, truccotrucco , FriendsOfKronos and POK.  
 
+
+```{=latex}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{images/network1.png}
+  \caption{Network Analysis of Tweets}
+\end{figure}
+```
+
+For the out-degree centrality, most of them lay on the left of the graph. Only a few active users retweeted many times.  Among them, WiseWords(19), BlueVelvet (18), SaraJane(17), wireHead1122(16) and rnbwBrite(16) are the most active users. 
+
+
+```{=latex}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{images/network2.png}
+  \caption{Histogram Distribution of out-degree centrality}
+\end{figure}
+```
+
+
+When it comes to the eigenvector centrality distribution, interestingly the 6 out of top 10 tweet users are the same as that in in-degree centrality distribution. Only BlueVelvet, rnbwBrite and wiseWords are different. They’re users who often retweeted from other users but still considered as important in the information dissemination network.
+
+```{=latex}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{images/network3.png}
+  \caption{Histogram Distribution of eigenvector centrality}
+\end{figure}
+```
 
 
 ## Geospatial Analysis
@@ -144,48 +199,76 @@ Given the event estimated starting time, we will filter the time accordingly so 
 
 ### Event 1: POK Rally (around 5-6pm)
 
-```{r, echo=FALSE, out.width="80%", fig.align='center', fig.cap="POK Rally Messages"}
-
-knitr::include_graphics("images/geo1.png")
-
+```{=latex}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{images/geo1.png}
+  \caption{Microblog and Call messages for POK Rally event}
+\end{figure}
 ```
 
 
 From the map, we noted on the estimated location of where POK Rally occurs. By observation, there are almost no calls received about the Rally within the vicinity and time range. This shows that the rally was most likely peaceful and not violent or chaotic.
 
 
-
 ### Event 2: Fire at Dancing Dolphin building (around 6:40pm-8pm)
 
-```{r, echo=FALSE, out.width="80%", fig.align='center', fig.cap="Microblog and Call messages for Fire Incident"}
-
-knitr::include_graphics("images/geo2.png")
-
+```{=latex}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{images/geo2.png}
+  \caption{Microblog and Call messages for Fire Incident}
+\end{figure}
 ```
+
 
 We noted that the affected area has sudden increase in both microblogs and call messages received denoted by the hexagonal plot. Judging from the call message within the affected area, the first call received is at 6:40pm, and is in-synced with the estimated first microblog message related. Hence, the response time can be considered prompt, denoting the severity of the event.
 
 
 ### Event 3: Black Van Chase (around 7:20pm onwards)
 
-```{r, echo=FALSE, out.width="80%", fig.align='center', fig.cap="Microblog and Call messages for Fire Incident"}
-
-knitr::include_graphics("images/geo3.png")
-
+```{=latex}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{images/geo3.png}
+  \caption{Microblog and Call messages for Black Van Incident}
+\end{figure}
 ```
 
 
 Interestingly, the area where the black van first appear is within the Fire incident as well. Hence, these events might be interlinked. The first microblog message and the call center message received are within 1 minute apart, hence the response is considered relatively prompt.
 
+### Event 4: Shooting Standoff at Gelato Galore (around 7:40pm onwards)
 
-### Event 4: 
+```{=latex}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{images/geo4.png}
+  \caption{Microblog and Call messages for Shooting Standoff Incident}
+\end{figure}
+```
 
 
+```{=latex}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{images/geo5.png}
+  \caption{Tracing the Black Van path}
+\end{figure}
+```
+
+
+The final event of the evening denotes another serious incident, given the high number of messages (both microblog and calls) received within the same area. We also noticed that the black van hit-and-run incident seems to be connected to the shooting as well, given the call messages locations tracked along the streets until around 7:39pm. Given the call message for SWAT team at 7:44pm, and that the estimated start time for this event is around 7:40pm, we noticed a slight lag in time but nonetheless almost in-synced.
 
 
 
 # Conclusion and Future Work
 
+In this work we presented an integrated visual analytics dashboard for public and government analysis of social media data. We applied multiple text mining and visualization techniques for social events response based on text content vitalization, network exploration and spatiotemporal analysis. For abnormal event response, we demonstrated an analyzed flow to verify and examine the dashboard application. For future work, we will research and include more text mining techniques and provide more functional extension to the dashboard, and we hope to apply the concept of the framework design for more real-world text data analysis in response to time, entity relationship, and location.
+
+One of the constraints of this dashboard is it’s not linked with the real-time data, but rather historical data. In the future, an integration between Tweeter/Call center database and the dashboard may mitigate the gap and provide real-time risk alert. Further work also needs to be done for tweets and calls received at the exact same timestamp, as there could be potential overlaps of messages and difficult to decipher which message is the first.
+
+In conclusion, the dashboard highlighted key topics and network relations among microblogs. We also observed interesting linkage of the major events throughout the course of the evening. Hence, this proved to be a potential real-time detection of incident flow for emergency dispatches to be alerted of quickly and dispatch the corresponding units accordingly.
 
 
 # References
