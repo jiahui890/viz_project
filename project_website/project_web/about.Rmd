@@ -1,0 +1,26 @@
+---
+title: "Visual Dashboard for Real-Time Analysis of Social Media"
+description: |
+  Detecting abnormal events, such as disaster or crisis, from microblog social media has become a trend, as social media has played a pervasive role in the way people behave and think. Nowadays, people are also using time-stamped, geo -located data to share live information about what’s happening in their surroundings, which enables the public, government and researchers to identify abnormal events in community more quickly and take immediate actions. 
+  
+  In this project, we researched on text visualization techniques and built a comprehend visualization dashboardbased on R shiny. 
+  
+author:
+  - name: Jiahui Lim, Linya Huang, Ying Zhang 
+    affiliation: School of Computing and Information, Singapore Management University
+date: 08-15-2021
+output:
+  distill::distill_article:
+    toc: true
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+
+
+
+

@@ -1,0 +1,16 @@
+name: "project_web"
+title: "Shiny Project Website"
+description: |
+  My Website
+output_dir: "_site"
+navbar:
+  right:
+    - text: "Home"
+      href: about.html
+    - text: "About"
+      href: about.html
+    - text: "Proposal"
+      href: Proposal.html
+    - text: "Our Works"
+      href: Our_Works.html
+output: distill::distill_article
