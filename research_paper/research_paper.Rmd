@@ -14,9 +14,9 @@ author:
 header-includes:
    - \usepackage{float}   
 abstract: |
-  Real-time social media analysis has became popular in the current days, as the topics and sentiment generated will be able to provide meaningful insights on the current subject or event occurring. The form of time-stamped and location-stamped data provides important information, especially when capturing a serious incident. As text data are everywhere, text mining tools such as stopwords and punctuations removal became essential to ensure the words retrieve holds certain meaning. Topic modeling, sentiment lexicons and classification are further steps that can be taken to generate stories from these words itself.
+  Real-time social media analysis has became popular in the current days, as the topics and sentiment generated will be able to provide meaningful insights on the current subject or event occurring. The form of time-stamped and location-stamped data provides important information, especially when capturing a serious incident. As text data are everywhere, text mining tools such as stopwords and punctuations removal became essential to ensure words retrieved holds certain meaning. Topic modeling, sentiment lexicons and classification are further steps that can be taken to generate stories from these words itself.
   
-  With the presence of time and location tags, government agencies and emergency dispatches can make use of this information (together with words) to make sense of the elevating situation in times of crisis. The location of calls received by call centers can also be mapped out to the first tweeted location, hence measuring the response time and better evaluate the risk level occuring. In this paper, we will be focusing on using a fictional dataset, whereby the historical data of microblogs and call centers will be analysed via text mining tools to determine top events occuring within a fixed time period, as well as mapping out the relationships between microblog users and how the location stamps play a part in evaluating the response time for emergency dispatches.
+  With the presence of time and location tags, government agencies and emergency dispatches can make use of this information (together with words) to make sense of the elevating situation in times of crisis. The location of calls received by call centers can also be mapped out to the first tweeted location, hence measuring the response time and better evaluate the risk level occuring. In this paper, we will be focusing on using a fictional dataset, whereby the historical data of microblogs and call centers will be analysed via visual techniques incorporated by text mining tools to determine top events occuring within a fixed time period. We will also be mapping out the relationships between microblog users and how the location stamps play a part in evaluating the response time for emergency dispatches.
 bibliography: sigproc.bib
 csl: acm-sig-proceedings.csl
 output: rticles::acm_article
@@ -30,7 +30,7 @@ To better analyzing and visualizing social media texts,  several text analytics 
 
 In order to build a comprehend visualization dashboard with an interactive user interface, we buit the application based on R shiny - a web application framework to create interactive web applications - and text analytical R packages. 
 
-This paper reports our research and development effort to the real-time social media microblog analysis. It consists of XXX sections. Section 1 provides a general introduction of the paper, followed by a motivation and objectives of the paper. Section 3 provides a literature review of related analytical techniques and Section 4 provides the discussion of analytical methods applied in our analysis and development. Then we will discuss the user interface and application design and provides examples of analysis flow. Lastly, the paper concludes with consideration of future improvement work.
+This paper reports our research and development effort to the real-time social media microblog analysis. It consists of 5 major sections. Section 1 provides a general introduction of the paper, followed by a motivation and objectives of the paper. Section 3 provides a literature review of related analytical techniques and Section 4 provides the discussion of analytical methods applied in our analysis and development. Then we will discuss the user interface and application design and provides examples of analysis flow. Lastly, the paper concludes with consideration of future improvement work.
 
 # Motivation and Objectives
 
@@ -49,9 +49,17 @@ Streaming online social media can be used to study crime detection problems. Com
 Word clouds can provide an overview by distilling text down to those words that appear with highest frequency. In the research paper Word Cloud Explorer (Florian etl 2014), researchers have demonstrated an integrated word cloud dashboard including basic word cloud view, co-occurrence highlighting, term series, information, search panel as well as part-of-speech and named-entities. The extension usage of basic word cloud visualization has been transformed into a powerful tool for text analytics. We will selectively apply the general word cloud exploration techniques into real time social media dashboard development.
 Topic modelling through Latent Dirichlet Allocation has been widely used in the industry for text mining. LDAvis (Chris etl 2014) is one of the most popular interactive web-based topic model visualization proving user interface of selection via number of topics and term and topic relevance. In consideration of the nature of social media streaming text, we will further analysis topic relationship with time series and users.
 
-Network analysis has become increasingly popular to detect the interrelationships between actors of all sorts (Jesse, 2017). With the prevalence of social media, network analysis has expanded from real-life networks to the virtual networks in social media. In France and Christpoher's social network analysis of tweets during the Australian 2010-2011 (2011), they used tweets network to identify active players and their effectiveness in disseminating critical information via UCINet (Borgatti, Everett & Freeman 2002) and Pajek (Batafekj & Mrvar 1998). While the static network visualization failed to provide the users’ names and their importance in the graph. To overcome this, we will use visNetwork package in R in our project to create an interactive network and options of various centrality measurements for the users to explore. 
+Network analysis has become increasingly popular to detect the interrelationships between actors of all sorts (Jesse, 2017). With the prevalence of social media, network analysis has expanded from real-life networks to the virtual networks in social media. In France and Christopher's social network analysis of tweets during the Australian 2010-2011 (2011), they used tweets network to identify active players and their effectiveness in disseminating critical information via UCINet (Borgatti, Everett & Freeman 2002) and Pajek (Batafekj & Mrvar 1998). While the static network visualization failed to provide the users’ names and their importance in the graph. To overcome this, we will use visNetwork package in R in our project to create an interactive network and options of various centrality measurements for the users to explore. 
 
-For spatiotemporal microblog visualization, some research has focused on visualization application on disaster events for public response, such as Junghoon et al. (2014), which provided an example of abnormal events detection through microblogs through spatiotemporal visualization, spatial analysis, interactive spatial decision support, temporal pattern and abnormal topic analysis. The heat map is useful in calculating the intensity of data points within the kernel but may have problems in handling large number of point data as discussed in paper DIVAD (Kam etal.2012) which suggested an alternative way by using hexagon binning map. The splitting the existing map by hexagon is an easy approach due to the lack of administrative boundary information. 
+```{=latex}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{images/litrev1.png}
+  \caption{Literature review of DIVAD paper}
+\end{figure}
+```
+
+For spatio-temporal microblog visualization, some research has focused on visualization application on disaster events for public response, such as Junghoon et al. (2014), which provided an example of abnormal events detection through microblogs through spatio-temporal visualization, spatial analysis, interactive spatial decision support, temporal pattern and abnormal topic analysis. The heat map is useful in calculating the intensity of data points within the kernel but may have problems in handling large number of point data as discussed in paper DIVAD (Kam etal.2012) which suggested an alternative way by using hexagon binning map. The splitting the existing map by hexagon is an easy approach due to the lack of administrative boundary information. 
 
 # Background and Datasets
 
@@ -95,14 +103,20 @@ The plots are governed by time slider to show how the “hotspots” and message
 
 # User Interface and Application Design
 
+```{=latex}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{images/design.png}
+  \caption{Design Framework for Visual Dashboard}
+\end{figure}
+```
 
-Sample
-
+There’re four main guiding principles when designing the user interface. The main goal of this app is to build a comprehensive analytical dashboard comprising of social media trends with respect to time. Meanwhile, we also want to make it simple and allow users to consume all the important information in the first glance. Interactivity is another key feature we are striving for by customizing selections and inputs for users to explore various scenarios. Finally, this app has to be practical and applicable to the public and government to understand the abnormal and risky event in the community. 
 
 
 # Results Analysis and Discussion
 
-The Shiny Dashboard was designed to incorporate interactivity and usability with different parameters for better analysis and understanding of the problem. In this section, we will focus on general analysis of events that occurred throughout the evening.
+With the interactivity and usability of the Shiny Dashboard, usage of different parameters provides better analysis and understanding of the problem. In this section, we will focus on general analysis of events that occurred throughout the evening.
 
 ## EDA and Topic Modeling
 
@@ -154,7 +168,7 @@ Topic Modeling using microblog data and with 10 topics of interest across the en
 2)	Black Van incident and Shooting Standoff at gelato galore (from 7:40pm onwards)
 3)	POK Rally event (from 5pm to 6pm, but tweets about it last the entire evening)
 
-A brief approximation of the starting time for these events are denoted with spikes in time-series analysis.
+A brief approximation of the starting time for these events are denoted with spikes in time-series analysis. Hence, with this information, we will be able to dive deep into analysis with the geo-location and find out if the call message timestamp are in-synced with the microblogs timing.
 
 
 ## Network Analysis
@@ -181,8 +195,8 @@ For the out-degree centrality, most of them lay on the left of the graph. Only a
 \end{figure}
 ```
 
-
 When it comes to the eigenvector centrality distribution, interestingly the 6 out of top 10 tweet users are the same as that in in-degree centrality distribution. Only BlueVelvet, rnbwBrite and wiseWords are different. They’re users who often retweeted from other users but still considered as important in the information dissemination network.
+
 
 ```{=latex}
 \begin{figure}[H]
@@ -222,7 +236,7 @@ From the map, we noted on the estimated location of where POK Rally occurs. By o
 ```
 
 
-We noted that the affected area has sudden increase in both microblogs and call messages received denoted by the hexagonal plot. Judging from the call message within the affected area, the first call received is at 6:40pm, and is in-synced with the estimated first microblog message related. Hence, the response time can be considered prompt, denoting the severity of the event.
+We noted that the affected area has sudden increase in both microblogs and call messages received denoted by the dark colours on hexagonal plot. Judging from the call message within the affected area, the first call received is at 6:40pm, and is in-synced with the estimated first microblog message related. Hence, the response time can be considered prompt, especially since the event is considerably serious (based on the large number of messages).
 
 
 ### Event 3: Black Van Chase (around 7:20pm onwards)
@@ -236,7 +250,8 @@ We noted that the affected area has sudden increase in both microblogs and call 
 ```
 
 
-Interestingly, the area where the black van first appear is within the Fire incident as well. Hence, these events might be interlinked. The first microblog message and the call center message received are within 1 minute apart, hence the response is considered relatively prompt.
+Interestingly, we compared the geo-locations and found that the area where the black van first appear is within the Fire incident as well. Hence, there may be a high chance these two events were interlinked. The first microblog message and the call center message received are within 1 minute apart, hence the response is considered relatively prompt. Some observations on the microblogs shows that the black van was involved in a hit-and-run accident as well.
+
 
 ### Event 4: Shooting Standoff at Gelato Galore (around 7:40pm onwards)
 
@@ -258,20 +273,39 @@ Interestingly, the area where the black van first appear is within the Fire inci
 ```
 
 
-The final event of the evening denotes another serious incident, given the high number of messages (both microblog and calls) received within the same area. We also noticed that the black van hit-and-run incident seems to be connected to the shooting as well, given the call messages locations tracked along the streets until around 7:39pm. Given the call message for SWAT team at 7:44pm, and that the estimated start time for this event is around 7:40pm, we noticed a slight lag in time but nonetheless almost in-synced.
+The final event of the evening denotes another serious incident, given the high number of messages (both microblog and calls) received within the same area. We also noticed that the black van hit-and-run incident seems to be connected to the shooting as well, given that the call messages locations were tracked along the streets until around 7:39pm (denoted by the arrow drawn in above figure). As the call message for SWAT team appears at 7:44pm, and that the estimated start time for this event is around 7:40pm, we noticed a slight lag in time but nonetheless almost in-synced. 
 
 
 
 # Conclusion and Future Work
 
-In this work we presented an integrated visual analytics dashboard for public and government analysis of social media data. We applied multiple text mining and visualization techniques for social events response based on text content vitalization, network exploration and spatiotemporal analysis. For abnormal event response, we demonstrated an analyzed flow to verify and examine the dashboard application. For future work, we will research and include more text mining techniques and provide more functional extension to the dashboard, and we hope to apply the concept of the framework design for more real-world text data analysis in response to time, entity relationship, and location.
+In this work, we presented an integrated visual analytics dashboard for public and government analysis of social media data. We applied multiple text mining and visualization techniques for social events response based on text content vitalization, network exploration and spatio-temporal analysis. For abnormal event response, we demonstrated an analyzed flow to verify and examine the dashboard application. For future work, we will research and include more text mining techniques and provide more functional extension to the dashboard, and we hope to apply the concept of the framework design for more real-world text data analysis in response to time, entity relationship, and location.
 
 One of the constraints of this dashboard is it’s not linked with the real-time data, but rather historical data. In the future, an integration between Tweeter/Call center database and the dashboard may mitigate the gap and provide real-time risk alert. Further work also needs to be done for tweets and calls received at the exact same timestamp, as there could be potential overlaps of messages and difficult to decipher which message is the first.
 
 In conclusion, the dashboard highlighted key topics and network relations among microblogs. We also observed interesting linkage of the major events throughout the course of the evening. Hence, this proved to be a potential real-time detection of incident flow for emergency dispatches to be alerted of quickly and dispatch the corresponding units accordingly.
 
 
+# Acknowledgement
+
+We would like to thank Prof Kam Tin Seong of Singapore Management University for his valuable advice and support on this project.
+
+
 # References
+
+- F. Heimerl, S. Lohmann, S. Lange and T. Ertl, 2014, Word Cloud Explorer: Text Analytics Based on Word Clouds, 2014 47th Hawaii International Conference on System Sciences, 2014, pp. 1833-1842, doi: 10.1109 /HICSS.2014.231.
+
+- Chris Culy, Marti Hearst, Jimmy Lin, Noah Smith,  Krist Wongsuphasawat, 2014, Workshop on Interactive Language Learning, Visualization, and Interfaces, Association for Computational Linguistics (ACL 2014), https://nlp.stanford.edu/events/illvi2014/
+
+- Junghoon Chae, Dennis Thom, Yun Jang, SungYe Kim, Thomas Ertl, David S. Ebert, Public behavior response analysis in disaster events utilizing visual analytics of microblog data, Computers & Graphics, Volume 38,2014, Pages 51-60,ISSN 0097-8493,https://doi.org/10.1016/j.cag.2013.10.008.
+
+- Jesse Sadler, 2011, Introduction to Network Analysis with R, retrieved from 
+https://www.jessesadler.com/post/network-analysis-with-r/
+
+- France Cheong and Christopher Cheong, 2011, Social Media Data Mining: A Social Network Analysis Of Tweets During The 2010-2011 Australian Floods, retrieved from
+https://aisel.aisnet.org/pacis2011/46/
+
+
 
 ---
 references:
