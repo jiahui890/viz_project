@@ -9,7 +9,7 @@ output: distill::distill_article
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-### [Research Paper]()
+### [Research Paper](files/research_paper.pdf)
 
 Visual analytics application practice and research of social media streaming data.
 
@@ -17,11 +17,11 @@ Visual analytics application practice and research of social media streaming dat
 
 An integrated and dynamic dashboard for social-media visualization analysis.
 
-### [Shiny User Guide](images/ShinyApp_UserGuide.pdf)
+### [Shiny User Guide](files/ShinyApp_UserGuide.pdf)
 
 To optimize application user experience, please refer to user guide.
 
-### [Poster]()
+### [Poster](files/poster.pdf)
 
 A visual poster of the application that provides an overview of our motivations, approaches and analytics results.
 

@@ -94,15 +94,17 @@ Our research is motivated by the lack of integrated and comprehensive real-time 
 
 # Approach
 
-```{r, echo=FALSE, out.width="80%", fig.align='center'}
+```{r, echo=FALSE, out.width="70%", fig.align='center'}
 library(knitr)
 include_graphics("image/design.png")
 ```
-```{r, echo=FALSE, out.width="80%", fig.align='center'}
+
+```{r, echo=FALSE, out.width="70%", fig.align='center'}
 
 include_graphics("image/framework.png")
 ```
-```{r, echo=FALSE, out.width="80%", fig.align='center'}
+
+```{r, echo=FALSE, out.width="70%", fig.align='center'}
 
 include_graphics("image/tool.png")
 ```
@@ -110,6 +112,7 @@ include_graphics("image/tool.png")
 # Datasets
 
 VAST Challenge 2021 Mini-Challenge 3 poses a social media and text analysis challenge to detect the meaningful event reports, evaluate risk level, public influence and suggest team of first response based on location-stamped posts. It provides the collection of microblogs and emergency calls from the event day and geospatial map of the corresponding areas.
+
 
 |No| Dataset | Information  |
 |:-------|:-------------|:-------------|
@@ -124,7 +127,7 @@ VAST Challenge 2021 Mini-Challenge 3 poses a social media and text analysis chal
 
 **Summary of datasets at glance**
 
-```{r, echo=FALSE, out.width="70%", fig.align='center'}
+```{r, echo=FALSE, out.width="60%", fig.align='center'}
 
 include_graphics("image/exploratory.png")
 ```
@@ -139,18 +142,23 @@ include_graphics("image/exploratory.png")
 
 **Customized parameters for LDA topic modeling**
 
-```{r, echo=FALSE, out.width="70%", fig.align='center'}
+```{r, echo=FALSE, out.width="60%", fig.align='center'}
 
 include_graphics("image/topic1.png")
+```
+
+```{r, echo=FALSE, out.width="60%", fig.align='center'}
+
 include_graphics("image/topic2.png")
 ```
+
 
 By selecting time range and LDA topic modeling parameters, the text modeling will perform dynamically in the backend. With the LDA results, users can futher explores top meaningful words in each topic, identify the peaks of key major events at certain point of time through topic trend distribution and profile users based on their posts contributions to the topics.
 
 
 ## Network
 
-```{r, echo=FALSE, out.width="80%", fig.align='center'}
+```{r, echo=FALSE, out.width="60%", fig.align='center'}
 
 include_graphics("image/network.png")
 
@@ -158,40 +166,57 @@ include_graphics("image/network.png")
 
 With this VisNetwork object, we visuliaze the retweets network and draw the histograms of right skewed centrality distribution graph indicating patterns of the information dissemination. A variety of insights would be derived through different centrality measurements. For instance, most popular and active users could be identified by in-degree and out-degree centrality. And most influential users can also be detected by closeness and eigenvector centrality.  
 
-## Geospatial
+## Geospaitial
 
-```{r, echo=FALSE, out.width="90%", fig.align='center'}
+```{r, echo=FALSE, out.width="70%", fig.align='center'}
 
 
 include_graphics("image/geo1.png")
 include_graphics("image/geo2.png")
 
-include_graphics("image/geospatial.png")
-
 ```
 
 To visually display the social media contents，we first plotted location-stamped text and call data on the leaflet map (via extraction and st_intersection of cross junctions). Then, we extracted hexagon binning map by using MMQGIS grid layer function in QGIS application.Subsequently, we identified the location-stamped posts intersection with the hexagon and counted the number of posts within each hexagon areas. By plotting the hexagon layer with color gradient over Aliba map, we then visualized the hexagon binning distribution map. 
 
-```{r, echo=FALSE, out.width="90%", fig.align='center'}
 
-include_graphics("image/hexagon.png")
-
-
-```
 
 # Insights 
 
+## EDA and Topic Modeling
 
+From initial exploratory analysis, we observe from the spikes that the frequency of microblogs and calls received are in synced. The number of retweets and tweets also corresponds to each other, most likely by people affected during that period of time.  
 
+The top trending hashtags observed are “#POKRally” and “#KronosStar”, while “ #DancingDolphinFire” and “ #standoff” interestingly appears towards the end of the timeline. A deeper analysis of tagged user shows that top users such as “@ centralbulletin” and “@ newsonlinetoday”, which denotes the official accounts of Abila media outlets that are frequently tagged or retweeted by public. 
+
+Topic Modeling using microblog data and with 10 topics of interest across the entire evening shows that the main events occurred were: 1.Fire at Dancing Dolphin building (from 6:40pm to about 8pm) 2.Black Van incident and Shooting Standoff at gelato galore (from 7:40pm onwards)  3. POK Rally event (from 5pm to 6pm).
+
+## Network Analysis 
+
+We can tell from the in-degree distribution graph that the top 3 users which are being retweeted a lot by other users are news media AbilaPost, KronosStar and HomelandIlluminations.   
+
+```{r, echo=FALSE, out.width="70%", fig.align='center'}
+
+include_graphics("image/network_analysis_1.png")
+
+```
+
+From out-degree centrality, WiseWords, BlueVelvet, SaraJane and rnbwBrite are the most active users. Interestingly, for the eigenvector centrality distribution, the 6 out of top 10 tweet users are the same as that in in-degree centrality distribution. Only BlueVelvet, rnbwBrite and wiseWords are different. 
+
+##  Geospatial Analysis
+
+- Shooting Standoff at Gelato Galore (7:40pm onwards) 
+
+The final event of the evening denotes another serious incident, given the high number of messages (both microblog and calls) received within the same area. We also noticed that the black van hit-and-run incident seems to be connected to the shooting as well, given the call messages locations tracked along the streets until around 7:39pm. Given the call message for SWAT team at 7:44pm, and that the estimated start time for this event is around 7:40pm, we noticed a slight lag in time but nonetheless almost in-synced. 
+
+```{r, echo=FALSE, out.width="50%", fig.align='center'}
+
+include_graphics("image/geo_shooting.jpg")
+
+```
 
 # Conclusion and Future Work
 
-In this work we presented an integrated visual analytics dashboard for public and government analysis of social media data. We applied multiple text mining and visualization techniques for social events response based on text content vitalization, network exploration and spatio-temporal analysis. For abnormal event response, we demonstrated a analyze flow to verify and examine the dashboard application. For future work, we will research and include more text mining techniques and provide more functional extension to the dashboard, and we hope to apply the concept of the framework design for more real-world text data analysis in response to time, entity relationship, and location. 
-
-# Acknowledgement 
-
-The authors want to thank Prof Kam Tin Seong of Singapore Management University for his valuable advice and support on this project.
-
+In this work we presented an integrated visual analytics dashboard for public and government analysis of social media data. We applied multiple text mining and visualization te chniques for social events response based on text content vitalization, network exploration and spatio-temporal analysis. For abnormal event response, we demonstrated a analyze flow to verify and examine the dashboard application. For future work, we will research and include more text mining techniques and provide more functional extension to the dashboard, and we hope to apply the concept of the framework design for more real-world text data analysis in response to time, entity relationship, and location. 
 
 ```{r echo=FALSE, eval=FALSE}
 library(pagedown)
