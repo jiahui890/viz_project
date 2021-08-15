@@ -11,8 +11,6 @@
 <title>G9_poster.knit</title>
 
 
-<script src="G9_poster_files/accessible-code-block-0.0.1/empty-anchor.js"></script>
-
 
 
 
@@ -401,9 +399,9 @@ span > #tab:mytable {
 </div>
 <div id="approach" class="section level1">
 <h1>Approach</h1>
-<p><img src="image/design.png" width="80%" style="display: block; margin: auto;" />
-<img src="image/framework.png" width="80%" style="display: block; margin: auto;" />
-<img src="image/tool.png" width="80%" style="display: block; margin: auto;" /></p>
+<p><img src="image/design.png" width="70%" style="display: block; margin: auto;" /></p>
+<p><img src="image/framework.png" width="70%" style="display: block; margin: auto;" /></p>
+<p><img src="image/tool.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="datasets" class="section level1">
 <h1>Datasets</h1>
@@ -440,38 +438,54 @@ span > #tab:mytable {
 <div id="exploratory" class="section level2">
 <h2>Exploratory</h2>
 <p><strong>Summary of datasets at glance</strong></p>
-<p><img src="image/exploratory.png" width="70%" style="display: block; margin: auto;" /></p>
+<p><img src="image/exploratory.png" width="60%" style="display: block; margin: auto;" /></p>
 <p>• Temporal Pattern: Temporal pattern distribution of the number of posts from various source such as microblog posts vs. call center messages, tweets vs. retweets given the specific time period.</p>
 <p>• Word Cloud based on frequency and cooccurrence rate: straightforward text analysis provides a overview of content being discussed and help to highlight past events that occurred from various sources</p>
 </div>
 <div id="topic-modeling" class="section level2">
 <h2>Topic Modeling</h2>
 <p><strong>Customized parameters for LDA topic modeling</strong></p>
-<p><img src="image/topic1.png" width="70%" style="display: block; margin: auto;" /><img src="image/topic2.png" width="70%" style="display: block; margin: auto;" /></p>
+<p><img src="image/topic1.png" width="60%" style="display: block; margin: auto;" /></p>
+<p><img src="image/topic2.png" width="60%" style="display: block; margin: auto;" /></p>
 <p>By selecting time range and LDA topic modeling parameters, the text modeling will perform dynamically in the backend. With the LDA results, users can futher explores top meaningful words in each topic, identify the peaks of key major events at certain point of time through topic trend distribution and profile users based on their posts contributions to the topics.</p>
 </div>
 <div id="network" class="section level2">
 <h2>Network</h2>
-<p><img src="image/network.png" width="80%" style="display: block; margin: auto;" /></p>
+<p><img src="image/network.png" width="60%" style="display: block; margin: auto;" /></p>
 <p>With this VisNetwork object, we visuliaze the retweets network and draw the histograms of right skewed centrality distribution graph indicating patterns of the information dissemination. A variety of insights would be derived through different centrality measurements. For instance, most popular and active users could be identified by in-degree and out-degree centrality. And most influential users can also be detected by closeness and eigenvector centrality.</p>
 </div>
 <div id="geospaitial" class="section level2">
 <h2>Geospaitial</h2>
-<p><img src="image/geo1.png" width="90%" style="display: block; margin: auto;" /><img src="image/geo2.png" width="90%" style="display: block; margin: auto;" /><img src="image/geospatial.png" width="90%" style="display: block; margin: auto;" />
-To visually display the social media contents，we first plotted location-stamped text and call data on the leaflet map (via extraction and st_intersection of cross junctions). Then, we extracted hexagon binning map by using MMQGIS grid layer function in QGIS application.Subsequently, we identified the location-stamped posts intersection with the hexagon and counted the number of posts within each hexagon areas. By plotting the hexagon layer with color gradient over Aliba map, we then visualized the hexagon binning distribution map.</p>
-<p><img src="image/hexagon.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="image/geo1.png" width="70%" style="display: block; margin: auto;" /><img src="image/geo2.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>To visually display the social media contents，we first plotted location-stamped text and call data on the leaflet map (via extraction and st_intersection of cross junctions). Then, we extracted hexagon binning map by using MMQGIS grid layer function in QGIS application.Subsequently, we identified the location-stamped posts intersection with the hexagon and counted the number of posts within each hexagon areas. By plotting the hexagon layer with color gradient over Aliba map, we then visualized the hexagon binning distribution map.</p>
 </div>
 </div>
 <div id="insights" class="section level1">
 <h1>Insights</h1>
+<div id="eda-and-topic-modeling" class="section level2">
+<h2>EDA and Topic Modeling</h2>
+<p>From initial exploratory analysis, we observe from the spikes that the frequency of microblogs and calls received are in synced. The number of retweets and tweets also corresponds to each other, most likely by people affected during that period of time.</p>
+<p>The top trending hashtags observed are “#POKRally” and “#KronosStar”, while “ #DancingDolphinFire” and “ #standoff” interestingly appears towards the end of the timeline. A deeper analysis of tagged user shows that top users such as “@ centralbulletin” and “@ newsonlinetoday”, which denotes the official accounts of Abila media outlets that are frequently tagged or retweeted by public.</p>
+<p>Topic Modeling using microblog data and with 10 topics of interest across the entire evening shows that the main events occurred were: 1.Fire at Dancing Dolphin building (from 6:40pm to about 8pm) 2.Black Van incident and Shooting Standoff at gelato galore (from 7:40pm onwards) 3. POK Rally event (from 5pm to 6pm).</p>
+</div>
+<div id="network-analysis" class="section level2">
+<h2>Network Analysis</h2>
+<p>We can tell from the in-degree distribution graph that the top 3 users which are being retweeted a lot by other users are news media AbilaPost, KronosStar and HomelandIlluminations.</p>
+<p><img src="image/network_analysis_1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>From out-degree centrality, WiseWords, BlueVelvet, SaraJane and rnbwBrite are the most active users. Interestingly, for the eigenvector centrality distribution, the 6 out of top 10 tweet users are the same as that in in-degree centrality distribution. Only BlueVelvet, rnbwBrite and wiseWords are different.</p>
+</div>
+<div id="geospatial-analysis" class="section level2">
+<h2>Geospatial Analysis</h2>
+<ul>
+<li>Shooting Standoff at Gelato Galore (7:40pm onwards)</li>
+</ul>
+<p>The final event of the evening denotes another serious incident, given the high number of messages (both microblog and calls) received within the same area. We also noticed that the black van hit-and-run incident seems to be connected to the shooting as well, given the call messages locations tracked along the streets until around 7:39pm. Given the call message for SWAT team at 7:44pm, and that the estimated start time for this event is around 7:40pm, we noticed a slight lag in time but nonetheless almost in-synced.</p>
+<p><img src="image/geo_shooting.jpg" width="50%" style="display: block; margin: auto;" /></p>
+</div>
 </div>
 <div id="conclusion-and-future-work" class="section level1">
 <h1>Conclusion and Future Work</h1>
-<p>In this work we presented an integrated visual analytics dashboard for public and government analysis of social media data. We applied multiple text mining and visualization techniques for social events response based on text content vitalization, network exploration and spatio-temporal analysis. For abnormal event response, we demonstrated a analyze flow to verify and examine the dashboard application. For future work, we will research and include more text mining techniques and provide more functional extension to the dashboard, and we hope to apply the concept of the framework design for more real-world text data analysis in response to time, entity relationship, and location.</p>
-</div>
-<div id="acknowledgement" class="section level1">
-<h1>Acknowledgement</h1>
-<p>The authors want to thank Prof Kam Tin Seong of Singapore Management University for his valuable advice and support on this project.</p>
+<p>In this work we presented an integrated visual analytics dashboard for public and government analysis of social media data. We applied multiple text mining and visualization te chniques for social events response based on text content vitalization, network exploration and spatio-temporal analysis. For abnormal event response, we demonstrated a analyze flow to verify and examine the dashboard application. For future work, we will research and include more text mining techniques and provide more functional extension to the dashboard, and we hope to apply the concept of the framework design for more real-world text data analysis in response to time, entity relationship, and location.</p>
 </div>
 
 </div>
