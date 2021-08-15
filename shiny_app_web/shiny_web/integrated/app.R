@@ -67,7 +67,7 @@ ui <- fluidPage(
                in R language and R shiny and provided an interactive and integrated dashboard for streaming online
                social-media analysis. "),
                  fluidRow(column(6,  h3("Design Concept"),
-                                 img(src="design.png",height = 430, width = 750)
+                                 img(src="design.png",height = 330, width = 650)
                  ),
                  column(6,  h3("Related Links"),
                         h5("Project Website", a("Link", href="https://isss608.netlify.app/lesson")),
@@ -98,7 +98,7 @@ ui <- fluidPage(
                             fluidRow(
                                 column(4,numericInput("min", "Min Frequency", 5, min = 1, max = 20)),
                                 column(4,numericInput("max", "Max Words", 100, min = 10, max = 200)),
-                                column(4,numericInput("topnco", "Top n Cooccurence Word", 20, min = 1, max = 200))
+                                column(4,numericInput("topnco", "Top n Cooccurence Words", 20, min = 1, max = 200))
                             ),
                             
                             tabsetPanel(
@@ -136,7 +136,7 @@ ui <- fluidPage(
                                                   as.POSIXct("2014-01-23 13:35:00")
                                               )),
                                   numericInput("k", "Number of Topics:", 10, min = 2, max = 20),
-                                  numericInput("alpha", "Alpha - hyperparameter for topic proportions:", 0.01, min = 0.0000001, max = 1),
+                                  numericInput("alpha", "Alpha - hyperparameter for topic proportions:", 0.01, min = 0.00001, max = 1),
                                   numericInput("iter", "Number of Iterations:", 200, min = 50, max = 500),
                                   numericInput("topn", "Top n words in topic:", 10, min = 1, max = 20),
                                   actionButton("do", strong("Apply Change"))
@@ -515,7 +515,7 @@ server <- function(input, output){
                 ggplot(aes(x=factor(x), y = count, text = paste0("range: ",round(xmin, 3), " - ", round(xmax,3)," count:",count))) + 
                 geom_bar(stat="identity") + 
                 xlab("Centrality Measurement Value")+
-                ggtitle("Distribution of Centrality of Nodes")+
+                ggtitle("Distribution of Nodes Centrality")+
                 theme(panel.border = element_blank(), 
                       panel.background = element_blank(),
                       panel.grid.major = element_blank(),
@@ -593,7 +593,7 @@ server <- function(input, output){
         model$data<-topic_data
         
         p1<-topic_data %>% group_by(time_1min,topic) %>% count() %>% ungroup() %>% 
-            mutate(time=time_1min+hours(16))
+            mutate(time=time_1min)
         
         p2<-ggplot(p1,aes(x=time))+
             geom_bar(aes(y=n), stat = "identity",fill = "black")+
@@ -651,7 +651,7 @@ server <- function(input, output){
             scale_x_discrete()+
             ggtitle("User Engagement %")
         
-    },height = 1600, width = 300);
+    },height = 1600, width = 400);
     
     output$table<-DT::renderDataTable({
         
