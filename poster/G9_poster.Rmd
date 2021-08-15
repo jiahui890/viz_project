@@ -31,8 +31,7 @@ primary_colour: '#1a17b3'
 secondary_colour: '#1a17b3'
 accent_colour: '#00A699'
 # title body
-logoleft_name: images/SMU_logo.jpg
-logoright_name: images/airbnb.jpg
+logoleft_name: image/smu.png
 titlebox_bordercol:	"#0b4545"	#Colour of the title box border.
 titlebox_borderwidth:	"0cm"	#Width of the title box border.
 title_textcol: "#ffffff"
@@ -162,8 +161,8 @@ With this VisNetwork object, we visuliaze the retweets network and draw the hist
 
 ```{r, echo=FALSE, out.width="80%", fig.align='center'}
 
-include_graphics("image/network.png")
-
+include_graphics("image/geo1.png")
+include_graphics("image/geo2.png")
 ```
 To visually display the social media contents，we first plotted location-stamped text data from different resources on the leatlet map. Then we extracted hexagon binning map by using MMQGIS grid layer function in QGIS application.Subsequently, we identified the location-stamped posts intersection with the hexagon and counted the number of posts within each hexagon areas. By plotting the hexagon layer with color gradient over Aliba map, we then visualized the hexagon binning distribution map. 
 
