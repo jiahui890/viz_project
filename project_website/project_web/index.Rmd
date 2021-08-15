@@ -13,3 +13,8 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ```
 
+<center>
+
+![fig](images/social_media.jpg){width=70%}\
+
+</center>

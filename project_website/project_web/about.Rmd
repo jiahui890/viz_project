@@ -18,9 +18,10 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
+<center>
 
+![figur](images/network.jpg){width=70%}\
 
-
-
+</center>
 
 
