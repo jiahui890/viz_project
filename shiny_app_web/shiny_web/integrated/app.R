@@ -43,7 +43,7 @@ Abila_st <- cbind(Abila, p) %>%
 
 merged_final<-st_read(dsn = "cleaned_data/merged_final", layer = "merged_final")
 
-merged_final<-left_join(merged_final,data,by="id")
+
 
 # ======== Hexagon ==========
 Abila_hex <- st_read(dsn = "cleaned_data/geo2", layer = "hex_final")
@@ -56,7 +56,25 @@ ui <- fluidPage(
     theme = bslib::bs_theme(),
     navbarPage(
         "Visual Dashboard for Real-Time Analysis of Social Media",
-        tabPanel("Introduction", "one"),
+        tabPanel("Introduction", 
+                 h3("Introduction"),
+                 br(),
+                 p("Social media has played a pervasive role in the way people behave and think.
+             Nowadays, people are also using time-stamped, geo -located data to share live information 
+               about what’s happening in their surroundings, which enables the public, 
+               government and researchers to identify abnormal events in community more quickly and take immediate actions."),
+                 p("In this dashboard, We applied text analytics methods and visually driven data analysis techniques 
+               in R language and R shiny and provided an interactive and integrated dashboard for streaming online
+               social-media analysis. "),
+                 fluidRow(column(6,  h3("Design Concept"),
+                                 img(src="design.png",height = 430, width = 750)
+                 ),
+                 column(6,  h3("Related Links"),
+                        h5("Project Website", a("Link", href="https://isss608.netlify.app/lesson")),
+                        h5("User Guide", a("Link", href="https://isss608.netlify.app/lesson")),
+                        h5("Github", a("Link", href="https://github.com/jiahui890/viz_project")),
+                        
+                 ))),
         tabPanel("Exploratory Data Analysis", 
                  
                  fluidRow(
@@ -69,7 +87,7 @@ ui <- fluidPage(
                                             as.POSIXct("2014-01-23 13:35:00")
                                         )
                             ),
-                            titlePanel("Microblog and Call Cender Trend"),       
+                            titlePanel("Microblog and Call Center Trend"),       
                             plotlyOutput("Lineplot1",height = 200),
                             br(),
                             plotlyOutput("Lineplot2",height = 200)
@@ -80,7 +98,7 @@ ui <- fluidPage(
                             fluidRow(
                                 column(4,numericInput("min", "Min Frequency", 5, min = 1, max = 20)),
                                 column(4,numericInput("max", "Max Words", 100, min = 10, max = 200)),
-                                column(4,numericInput("topnco", "Top n Cooccurance", 20, min = 1, max = 200))
+                                column(4,numericInput("topnco", "Top n Cooccurence Word", 20, min = 1, max = 200))
                             ),
                             
                             tabsetPanel(
@@ -187,14 +205,14 @@ ui <- fluidPage(
                  sidebarLayout(
                      sidebarPanel(width = 3,
                                   h2(strong("Filter Panel"), style = "font-size:20px;"),
-                                  sliderInput("timeRange", label = "Select Time Range",
+                                  sliderInput("timeRange3", label = "Select Time Range",
                                               min = as.POSIXct("2014-01-23 09:00:00"),
                                               max = as.POSIXct("2014-01-23 13:35:00"),
                                               value = c(
                                                   as.POSIXct("2014-01-23 09:00:00"),
                                                   as.POSIXct("2014-01-23 13:35:00")
                                               )),
-                                  selectInput("var1", "Select Data Type:",
+                                  selectInput("var2", "Select Data Type:",
                                               c("All","Call-Center","Microblog")),
                                   actionButton("do2", strong("Apply Change"))
                      ),
@@ -652,18 +670,23 @@ server <- function(input, output){
     
     observeEvent(input$do2, {
         
+        merged_final<-left_join(merged_final,data,by="id")
         
+        #merged_final$timestamp<-ymd_hms(timestamp)
         
         merged_final2 <- merged_final %>% 
-            filter(timestamp>=ymd_hms(input$timeRange[1])+ hours(8) & timestamp<=ymd_hms(input$timeRange[2])+ hours(8))
+            filter(timestamp>=ymd_hms(input$timeRange3[1])+ hours(8) & timestamp<=ymd_hms(input$timeRange3[2])+ hours(8))
         
-        if(input$var1=="Call-Center"){
+
+        
+        if(input$var2=="Call-Center"){
             merged_final2<-merged_final2 %>% filter(type=="ccdata")
-        } else if (input$var1=="Microblog"){
+        } else if (input$var2=="Microblog"){
             merged_final2<-merged_final2 %>% filter(type=="mbdata")
         } else {
             merged_final2<-merged_final2
         }
+        
         
         
         # === plot ====
@@ -713,6 +736,8 @@ server <- function(input, output){
     output$plot22 <- renderTmap({
         model3$plot22
     });
+    
+   
     
     
 }
